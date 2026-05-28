@@ -1,0 +1,32 @@
+aid: abuseipdb
+name: AbuseIPDB
+description: "IP/domain/URL reputation"
+url: https://docs.abuseipdb.com/
+specificationVersion: '0.20'
+created: '2026-05-28'
+modified: '2026-05-28'
+x-source: public-apis/public-apis
+x-category: "Anti-Malware"
+x-tier: 3
+x-tier-reason: bulk-registered-from-public-apis
+tags:
+  - Anti Malware
+  - Public APIs
+apis:
+  - name: AbuseIPDB
+    description: "IP/domain/URL reputation"
+    humanURL: https://docs.abuseipdb.com/
+    baseURL: https://docs.abuseipdb.com/
+    tags:
+      - Anti Malware
+    properties:
+      - type: Documentation
+        url: https://docs.abuseipdb.com/
+common:
+  - type: Website
+    url: https://docs.abuseipdb.com/
+  - type: PublicAPIsListing
+    url: https://github.com/public-apis/public-apis
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
