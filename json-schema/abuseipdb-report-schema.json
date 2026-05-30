@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/abuseipdb/main/json-schema/abuseipdb-report-schema.json",
+  "title": "AbuseIPDB Report",
+  "description": "A single abuse report submitted to or returned from the AbuseIPDB API.",
+  "type": "object",
+  "required": ["ip", "categories"],
+  "properties": {
+    "ip": { "type": "string", "description": "The reported IPv4 or IPv6 address." },
+    "categories": {
+      "oneOf": [
+        { "type": "string", "description": "Comma-separated list of category IDs (submission form)." },
+        { "type": "array", "items": { "type": "integer" }, "description": "Array of category IDs (response form)." }
+      ],
+      "description": "One or more AbuseIPDB category IDs (e.g. 18 for SSH Brute-Force, 22 for DDoS Attack)."
+    },
+    "comment": {
+      "type": "string",
+      "description": "Optional human-readable description and supporting log lines. Strip secrets and PII before sending."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional ISO 8601 timestamp of when the abuse occurred. Defaults to the moment of submission."
+    },
+    "reporterId": { "type": "integer", "description": "Identifier of the reporting account (response only)." },
+    "reporterCountryCode": { "type": "string", "description": "ISO 3166-1 alpha-2 country code of the reporter (response only)." },
+    "reporterCountryName": { "type": "string", "description": "Country name of the reporter (response only)." }
+  }
+}

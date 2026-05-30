@@ -1,0 +1,171 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: AbuseIPDB
+providerId: abuseipdb
+created: '2026-05-30'
+modified: '2026-05-30'
+reconciled: true
+tags:
+  - Rate Limiting
+  - IP Reputation
+  - Threat Intelligence
+description: Per-endpoint daily quotas for the AbuseIPDB APIv2 surface across Individual, Webmaster, Supporter, Basic, and Premium tiers.
+sources:
+  - https://docs.abuseipdb.com/#rate-limiting
+  - https://docs.abuseipdb.com/#rate-limit-headers
+  - https://www.abuseipdb.com/pricing
+headers:
+  retryAfter: Retry-After
+  limit: X-RateLimit-Limit
+  remaining: X-RateLimit-Remaining
+  reset: X-RateLimit-Reset
+responseCodes:
+  throttled: 429
+limits:
+  - name: CHECK / Individual
+    endpoint: GET /check
+    plan: Individual
+    metric: requests_per_day
+    limit: 1000
+    timeFrame: day
+  - name: CHECK / Webmaster
+    endpoint: GET /check
+    plan: Webmaster
+    metric: requests_per_day
+    limit: 3000
+    timeFrame: day
+  - name: CHECK / Supporter
+    endpoint: GET /check
+    plan: Supporter
+    metric: requests_per_day
+    limit: 5000
+    timeFrame: day
+  - name: CHECK / Basic
+    endpoint: GET /check
+    plan: Basic
+    metric: requests_per_day
+    limit: 10000
+    timeFrame: day
+  - name: CHECK / Premium
+    endpoint: GET /check
+    plan: Premium
+    metric: requests_per_day
+    limit: 50000
+    timeFrame: day
+  - name: REPORTS / Individual
+    endpoint: GET /reports
+    plan: Individual
+    metric: requests_per_day
+    limit: 100
+    timeFrame: day
+  - name: REPORTS / Basic
+    endpoint: GET /reports
+    plan: Basic
+    metric: requests_per_day
+    limit: 5000
+    timeFrame: day
+  - name: REPORTS / Premium
+    endpoint: GET /reports
+    plan: Premium
+    metric: requests_per_day
+    limit: 25000
+    timeFrame: day
+  - name: BLACKLIST / Individual
+    endpoint: GET /blacklist
+    plan: Individual
+    metric: requests_per_day
+    limit: 5
+    timeFrame: day
+  - name: BLACKLIST / Basic
+    endpoint: GET /blacklist
+    plan: Basic
+    metric: requests_per_day
+    limit: 100
+    timeFrame: day
+  - name: BLACKLIST / Premium
+    endpoint: GET /blacklist
+    plan: Premium
+    metric: requests_per_day
+    limit: 500
+    timeFrame: day
+  - name: REPORT / Individual
+    endpoint: POST /report
+    plan: Individual
+    metric: requests_per_day
+    limit: 1000
+    timeFrame: day
+  - name: REPORT / Basic
+    endpoint: POST /report
+    plan: Basic
+    metric: requests_per_day
+    limit: 10000
+    timeFrame: day
+  - name: REPORT / Premium
+    endpoint: POST /report
+    plan: Premium
+    metric: requests_per_day
+    limit: 50000
+    timeFrame: day
+  - name: CHECK-BLOCK / Individual
+    endpoint: GET /check-block
+    plan: Individual
+    metric: requests_per_day
+    limit: 100
+    timeFrame: day
+  - name: CHECK-BLOCK / Basic
+    endpoint: GET /check-block
+    plan: Basic
+    metric: requests_per_day
+    limit: 1000
+    timeFrame: day
+  - name: CHECK-BLOCK / Premium
+    endpoint: GET /check-block
+    plan: Premium
+    metric: requests_per_day
+    limit: 5000
+    timeFrame: day
+  - name: BULK-REPORT / Individual
+    endpoint: POST /bulk-report
+    plan: Individual
+    metric: requests_per_day
+    limit: 5
+    timeFrame: day
+  - name: BULK-REPORT / Basic
+    endpoint: POST /bulk-report
+    plan: Basic
+    metric: requests_per_day
+    limit: 100
+    timeFrame: day
+  - name: BULK-REPORT / Premium
+    endpoint: POST /bulk-report
+    plan: Premium
+    metric: requests_per_day
+    limit: 500
+    timeFrame: day
+  - name: CLEAR-ADDRESS / Individual
+    endpoint: DELETE /clear-address
+    plan: Individual
+    metric: requests_per_day
+    limit: 5
+    timeFrame: day
+  - name: CLEAR-ADDRESS / Basic
+    endpoint: DELETE /clear-address
+    plan: Basic
+    metric: requests_per_day
+    limit: 100
+    timeFrame: day
+  - name: CLEAR-ADDRESS / Premium
+    endpoint: DELETE /clear-address
+    plan: Premium
+    metric: requests_per_day
+    limit: 500
+    timeFrame: day
+  - name: Report categories per request
+    scope: request
+    metric: categories
+    limit: 30
+  - name: Bulk report CSV columns
+    scope: request
+    metric: csv_columns
+    limit: 4

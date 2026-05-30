@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.abuseipdb.com/api/v2/bulk-report",
+    "headers": {
+      "Key": "YOUR_API_KEY",
+      "Accept": "application/json"
+    },
+    "multipart": {
+      "csv": {
+        "filename": "report.csv",
+        "contentType": "text/csv",
+        "content": "IP,Categories,ReportDate,Comment\n127.0.0.2,\"18,22\",2026-05-30T10:14:00+00:00,\"SSH login attempts\"\n127.0.0.3,21,2026-05-30T10:15:00+00:00,\"Web app attack\""
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "savedReports": 2,
+        "invalidReports": []
+      }
+    }
+  }
+}

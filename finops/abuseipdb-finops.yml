@@ -1,0 +1,104 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: AbuseIPDB
+providerId: abuseipdb
+created: '2026-05-30'
+modified: '2026-05-30'
+reconciled: true
+tags:
+  - FinOps
+  - FOCUS
+  - IP Reputation
+  - Threat Intelligence
+description: FOCUS-aligned FinOps mapping for the AbuseIPDB APIv2 subscription surface. AbuseIPDB bills as flat-rate monthly or annual tiers, not pay-per-use, so the meters track consumption against per-endpoint daily quotas.
+sources:
+  - https://www.abuseipdb.com/pricing
+  - https://docs.abuseipdb.com/#rate-limiting
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: AbuseIPDB
+serviceCategory: Security & Identity
+billingModel:
+  pricingCategory: Tiered Subscription (Free / Basic / Premium / Enterprise)
+  billingFrequency: Monthly or Annual
+  billingCurrency: USD
+focusColumns:
+  ServiceName: AbuseIPDB APIv2
+  ServiceCategory: Security & Identity
+  ProviderName: AbuseIPDB
+  PublisherName: AbuseIPDB
+  BillingCurrency: USD
+meters:
+  - name: ip_checks_per_day
+    unit: requests
+    aggregation: sum
+    dimensions:
+      - api_key
+      - day
+    cappedBy: plan.checksPerDay
+  - name: ip_reports_per_day
+    unit: requests
+    aggregation: sum
+    dimensions:
+      - api_key
+      - day
+    cappedBy: plan.reportsPerDay
+  - name: blacklist_downloads_per_day
+    unit: requests
+    aggregation: sum
+    dimensions:
+      - api_key
+      - day
+    cappedBy: plan.blacklistPerDay
+  - name: bulk_reports_per_day
+    unit: requests
+    aggregation: sum
+    dimensions:
+      - api_key
+      - day
+    cappedBy: plan.bulkReportsPerDay
+  - name: check_block_per_day
+    unit: requests
+    aggregation: sum
+    dimensions:
+      - api_key
+      - day
+    cappedBy: plan.checkBlockPerDay
+  - name: blacklist_entries
+    unit: ips
+    aggregation: max
+    cappedBy: plan.maxBlacklistSize
+  - name: trackable_ip_ranges
+    unit: ranges
+    aggregation: max
+    cappedBy: plan.trackableRanges
+principles:
+  - name: Visibility
+    description: Track per-endpoint daily request counts via X-RateLimit-Limit / X-RateLimit-Remaining headers and downloadable API logs (Basic 72h / Premium 120h).
+  - name: Allocation
+    description: Tag each API key to a system or team (firewall, WAF, SIEM, SOAR) so spend can be allocated when teams justify upgrades.
+  - name: Optimization
+    description: Right-size by trending check/report headroom over 30 days. If consistent headroom > 60% remains on Premium, downgrade to Basic; if 429s appear on Free, upgrade rather than risk dropped events.
+  - name: Accountability
+    description: Set internal alerts when X-RateLimit-Remaining drops below 20% of daily limit; quarterly review of tier vs actual usage.
+costEvents:
+  - event: subscription-charge
+    cadence: monthly
+    plans:
+      - Basic: 25.00 USD/mo
+      - Premium: 99.00 USD/mo
+      - Enterprise: custom
+  - event: subscription-charge
+    cadence: annual
+    plans:
+      - Basic: 228.00 USD/yr
+      - Premium: 1068.00 USD/yr
+      - Enterprise: custom
+  - event: overage
+    cadence: per-request
+    description: Overages are not billed; requests beyond the daily quota are rejected with HTTP 429 and a Retry-After header.

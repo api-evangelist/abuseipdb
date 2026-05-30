@@ -1,0 +1,48 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "abuseipdb": "https://abuseipdb.com/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "ipAddress": { "@id": "abuseipdb:ipAddress" },
+    "isPublic": { "@id": "abuseipdb:isPublic", "@type": "xsd:boolean" },
+    "ipVersion": { "@id": "abuseipdb:ipVersion", "@type": "xsd:integer" },
+    "isWhitelisted": { "@id": "abuseipdb:isWhitelisted", "@type": "xsd:boolean" },
+    "abuseConfidenceScore": { "@id": "abuseipdb:abuseConfidenceScore", "@type": "xsd:integer" },
+    "countryCode": { "@id": "abuseipdb:countryCode" },
+    "countryName": { "@id": "schema:addressCountry" },
+    "usageType": { "@id": "abuseipdb:usageType" },
+    "isp": { "@id": "schema:provider" },
+    "domain": { "@id": "schema:domainName" },
+    "hostnames": { "@id": "abuseipdb:hostnames", "@container": "@set" },
+    "isTor": { "@id": "abuseipdb:isTor", "@type": "xsd:boolean" },
+    "totalReports": { "@id": "abuseipdb:totalReports", "@type": "xsd:integer" },
+    "numDistinctUsers": { "@id": "abuseipdb:numDistinctUsers", "@type": "xsd:integer" },
+    "lastReportedAt": { "@id": "abuseipdb:lastReportedAt", "@type": "xsd:dateTime" },
+
+    "reports": { "@id": "abuseipdb:reports", "@container": "@set" },
+    "reportedAt": { "@id": "abuseipdb:reportedAt", "@type": "xsd:dateTime" },
+    "categories": { "@id": "abuseipdb:categories", "@container": "@set" },
+    "comment": { "@id": "schema:description" },
+    "reporterId": { "@id": "abuseipdb:reporterId" },
+    "reporterCountryCode": { "@id": "abuseipdb:reporterCountryCode" },
+    "reporterCountryName": { "@id": "abuseipdb:reporterCountryName" },
+
+    "ip": { "@id": "abuseipdb:ipAddress" },
+    "timestamp": { "@id": "abuseipdb:reportedAt", "@type": "xsd:dateTime" },
+
+    "savedReports": { "@id": "abuseipdb:savedReports", "@type": "xsd:integer" },
+    "invalidReports": { "@id": "abuseipdb:invalidReports", "@container": "@set" },
+
+    "networkAddress": { "@id": "abuseipdb:networkAddress" },
+    "netmask": { "@id": "abuseipdb:netmask" },
+    "minAddress": { "@id": "abuseipdb:minAddress" },
+    "maxAddress": { "@id": "abuseipdb:maxAddress" },
+    "numPossibleHosts": { "@id": "abuseipdb:numPossibleHosts", "@type": "xsd:integer" },
+    "addressSpaceDesc": { "@id": "abuseipdb:addressSpaceDesc" },
+    "reportedAddress": { "@id": "abuseipdb:reportedAddress", "@container": "@set" },
+
+    "numReportsDeleted": { "@id": "abuseipdb:numReportsDeleted", "@type": "xsd:integer" }
+  }
+}

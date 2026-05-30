@@ -1,0 +1,42 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.abuseipdb.com/api/v2/reports?ipAddress=118.25.6.39&maxAgeInDays=90&page=1&perPage=25",
+    "headers": {
+      "Key": "YOUR_API_KEY",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "total": 47,
+        "page": 1,
+        "count": 25,
+        "perPage": 25,
+        "lastPage": 2,
+        "nextPageUrl": "https://api.abuseipdb.com/api/v2/reports?ipAddress=118.25.6.39&page=2&perPage=25",
+        "previousPageUrl": null,
+        "results": [
+          {
+            "reportedAt": "2026-05-29T18:33:12+00:00",
+            "comment": "Failed SSH login attempts from 118.25.6.39",
+            "categories": [18, 22],
+            "reporterId": 1,
+            "reporterCountryCode": "US",
+            "reporterCountryName": "United States"
+          },
+          {
+            "reportedAt": "2026-05-28T11:04:55+00:00",
+            "comment": "Brute-force login on WordPress admin endpoint",
+            "categories": [21],
+            "reporterId": 2,
+            "reporterCountryCode": "DE",
+            "reporterCountryName": "Germany"
+          }
+        ]
+      }
+    }
+  }
+}

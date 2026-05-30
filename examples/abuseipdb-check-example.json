@@ -1,0 +1,42 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.abuseipdb.com/api/v2/check?ipAddress=118.25.6.39&maxAgeInDays=90&verbose",
+    "headers": {
+      "Key": "YOUR_API_KEY",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "ipAddress": "118.25.6.39",
+        "isPublic": true,
+        "ipVersion": 4,
+        "isWhitelisted": false,
+        "abuseConfidenceScore": 100,
+        "countryCode": "CN",
+        "countryName": "China",
+        "usageType": "Data Center/Web Hosting/Transit",
+        "isp": "Tencent Cloud Computing (Beijing) Co. Ltd",
+        "domain": "tencent.com",
+        "hostnames": ["118.25.6.39"],
+        "isTor": false,
+        "totalReports": 47,
+        "numDistinctUsers": 22,
+        "lastReportedAt": "2026-05-29T18:33:12+00:00",
+        "reports": [
+          {
+            "reportedAt": "2026-05-29T18:33:12+00:00",
+            "comment": "Failed SSH login attempts from 118.25.6.39",
+            "categories": [18, 22],
+            "reporterId": 1,
+            "reporterCountryCode": "US",
+            "reporterCountryName": "United States"
+          }
+        ]
+      }
+    }
+  }
+}

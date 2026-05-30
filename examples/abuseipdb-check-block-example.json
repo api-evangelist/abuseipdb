@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.abuseipdb.com/api/v2/check-block?network=127.0.0.1/24&maxAgeInDays=30",
+    "headers": {
+      "Key": "YOUR_API_KEY",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "networkAddress": "127.0.0.0",
+        "netmask": "255.255.255.0",
+        "minAddress": "127.0.0.1",
+        "maxAddress": "127.0.0.254",
+        "numPossibleHosts": 254,
+        "addressSpaceDesc": "Loopback",
+        "reportedAddress": [
+          {
+            "ipAddress": "127.0.0.2",
+            "numReports": 1,
+            "mostRecentReport": "2026-05-30T10:14:00+00:00",
+            "abuseConfidenceScore": 0,
+            "countryCode": null
+          }
+        ]
+      }
+    }
+  }
+}

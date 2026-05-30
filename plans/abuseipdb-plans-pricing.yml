@@ -1,0 +1,128 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: AbuseIPDB
+providerId: abuseipdb
+created: '2026-05-30'
+modified: '2026-05-30'
+reconciled: true
+tags:
+  - IP Reputation
+  - Threat Intelligence
+  - Anti Malware
+description: AbuseIPDB tiered subscription pricing for the APIv2 surface, scaled by daily quotas, blacklist size, and trackable ranges.
+sources:
+  - https://www.abuseipdb.com/pricing
+  - https://www.abuseipdb.com/account/plans
+plans:
+  - id: abuseipdb-individual
+    name: Individual
+    type: free
+    description: Forever-free tier for individual researchers, hobbyist admins, and home labs. No credit card required.
+    entries:
+      - label: Monthly subscription
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: 1,000 IP checks per day
+      - name: 1,000 IP reports per day
+      - name: 100 block checks per day
+      - name: 5 basic blacklist downloads per day
+      - name: Basic blacklist up to 10,000 IPs
+      - name: 72-hour ticket support
+  - id: abuseipdb-basic
+    name: Basic
+    type: subscription
+    description: Entry-paid tier for SMBs and security teams; 10x checks and reports vs free.
+    entries:
+      - label: Monthly subscription
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '25.00'
+        userMultiplied: false
+      - label: Annual subscription
+        name: annual
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: '228.00'
+        userMultiplied: false
+    elements:
+      - name: 10,000 IP checks per day
+      - name: 10,000 IP reports per day
+      - name: 1,000 block checks per day
+      - name: 100 bulk reports per day
+      - name: 100 blacklist downloads per day
+      - name: Customisable blacklist up to 100,000 IPs
+      - name: 5 trackable IP ranges
+      - name: 24-hour ticket response
+      - name: 72-hour API log downloads
+  - id: abuseipdb-premium
+    name: Premium
+    type: subscription
+    description: Mid-tier paid plan for high-traffic platforms, MSSPs, and incident-response teams.
+    entries:
+      - label: Monthly subscription
+        name: monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '99.00'
+        userMultiplied: false
+      - label: Annual subscription
+        name: annual
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: '1068.00'
+        userMultiplied: false
+    elements:
+      - name: 50,000 IP checks per day
+      - name: 50,000 IP reports per day
+      - name: 5,000 block checks per day
+      - name: 500 bulk reports per day
+      - name: 500 blacklist downloads per day
+      - name: Customisable blacklist up to 500,000 IPs
+      - name: 25 trackable IP ranges
+      - name: 24-hour ticket response
+      - name: 120-hour API log downloads
+  - id: abuseipdb-enterprise
+    name: Enterprise
+    type: enterprise
+    description: Custom-priced direct data access for ISPs and large security organisations.
+    entries:
+      - label: Custom contract
+        name: custom
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: contact-sales
+        userMultiplied: false
+    elements:
+      - name: Direct data access
+      - name: Custom quotas and SLAs
+      - name: Dedicated account engagement

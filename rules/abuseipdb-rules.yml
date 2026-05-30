@@ -1,0 +1,237 @@
+extends:
+  - spectral:oas
+rules:
+  # INFO / METADATA
+  info-title-abuseipdb-prefix:
+    message: API title must begin with "AbuseIPDB"
+    severity: warn
+    given: $.info.title
+    then:
+      function: pattern
+      functionOptions:
+        match: '^AbuseIPDB'
+
+  info-description-required:
+    message: Info object must have a non-empty description
+    severity: error
+    given: $.info
+    then:
+      field: description
+      function: truthy
+
+  info-version-required:
+    message: Info object must have a version
+    severity: error
+    given: $.info
+    then:
+      field: version
+      function: truthy
+
+  info-contact-required:
+    message: Info object should include contact information
+    severity: warn
+    given: $.info
+    then:
+      field: contact
+      function: truthy
+
+  info-license-required:
+    message: Info object should reference the AbuseIPDB Terms of Service
+    severity: warn
+    given: $.info
+    then:
+      field: license
+      function: truthy
+
+  # OPENAPI VERSION
+  openapi-version-3:
+    message: Must use OpenAPI 3.0.x
+    severity: error
+    given: $.openapi
+    then:
+      function: pattern
+      functionOptions:
+        match: '^3\.0\.'
+
+  # SERVERS
+  servers-defined:
+    message: At least one server must be defined
+    severity: error
+    given: $
+    then:
+      field: servers
+      function: truthy
+
+  servers-https-abuseipdb-base:
+    message: Server URLs must use https://api.abuseipdb.com/api/v2
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://api\.abuseipdb\.com/api/v2'
+
+  # SECURITY
+  global-security-required:
+    message: AbuseIPDB endpoints must require an API key
+    severity: error
+    given: $
+    then:
+      field: security
+      function: truthy
+
+  api-key-header-name:
+    message: API key must be sent in the `Key` HTTP header
+    severity: error
+    given: $.components.securitySchemes.*
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            type:
+              const: apiKey
+            in:
+              const: header
+            name:
+              const: Key
+
+  # OPERATIONS
+  operation-summary-required:
+    message: Every operation must have a summary
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: summary
+      function: truthy
+
+  operation-summary-title-case:
+    message: Operation summaries must use Title Case
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9]*(\s+(an?|the|of|for|to|in|on|by|with|and|or|[A-Z][A-Za-z0-9]*))*$'
+
+  operation-description-required:
+    message: Every operation must have a description
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: description
+      function: truthy
+
+  operation-operationid-required:
+    message: Every operation must have a stable operationId
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: operationId
+      function: truthy
+
+  operation-operationid-camelcase:
+    message: operationId must be camelCase
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].operationId
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[a-z][A-Za-z0-9]*$'
+
+  operation-tags-required:
+    message: Every operation must be tagged
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete]
+    then:
+      field: tags
+      function: truthy
+
+  # RESPONSES
+  operation-2xx-response:
+    message: Every operation must define at least one 2xx response
+    severity: error
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      function: pattern
+      functionOptions:
+        match: '2\d\d'
+
+  operation-401-response:
+    message: Every operation must define a 401 response for missing/invalid API key
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      field: '401'
+      function: truthy
+
+  operation-429-response:
+    message: Every operation must define a 429 response for rate limiting
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].responses
+    then:
+      field: '429'
+      function: truthy
+
+  # PARAMETERS
+  parameter-description-required:
+    message: Parameters must have a description
+    severity: warn
+    given: $.paths[*][*].parameters[*]
+    then:
+      field: description
+      function: truthy
+
+  ip-parameter-naming:
+    message: IP address parameters should be named `ipAddress` (camelCase)
+    severity: warn
+    given: "$.paths[*][*].parameters[?(@.in=='query' && (@.name=='ip' || @.name=='ipaddress' || @.name=='ip_address'))]"
+    then:
+      field: name
+      function: enumeration
+      functionOptions:
+        values: [ipAddress, ip]
+
+  # SCHEMAS
+  schema-property-descriptions:
+    message: Schema properties should have descriptions
+    severity: info
+    given: $.components.schemas[*].properties[*]
+    then:
+      field: description
+      function: truthy
+
+  abuse-score-bounds:
+    message: abuseConfidenceScore must be bounded between 0 and 100
+    severity: warn
+    given: $.components.schemas[*].properties.abuseConfidenceScore
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [minimum, maximum]
+          properties:
+            minimum:
+              const: 0
+            maximum:
+              const: 100
+
+  # TAGS
+  tags-defined:
+    message: API must define a top-level tags array
+    severity: warn
+    given: $
+    then:
+      field: tags
+      function: truthy
+
+  tags-title-case:
+    message: Tag names should use Title Case
+    severity: warn
+    given: $.tags[*].name
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9]*(\s+[A-Z][A-Za-z0-9]*)*$'

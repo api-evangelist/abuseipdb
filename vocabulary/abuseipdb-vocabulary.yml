@@ -1,0 +1,142 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "AbuseIPDB"
+  description: "Unified vocabulary mapping operational (OpenAPI) and capability (Naftiko) dimensions for the AbuseIPDB community IP reputation platform"
+  created: "2026-05-30"
+  modified: "2026-05-30"
+
+operational:
+  apis:
+    - name: AbuseIPDB APIv2
+      namespace: abuseipdb-apiv2
+      version: v2
+      baseUrl: https://api.abuseipdb.com/api/v2
+      status: active
+
+  resources:
+    - name: ip-record
+      api: abuseipdb-apiv2
+      actions: [check]
+      description: Reputation record returned for a single IPv4 or IPv6 address.
+    - name: cidr-block
+      api: abuseipdb-apiv2
+      actions: [check]
+      description: Reputation summary returned for a CIDR network range.
+    - name: report
+      api: abuseipdb-apiv2
+      actions: [list, create, bulkCreate, clear]
+      description: Abuse report describing one or more category IDs against an IP.
+    - name: blacklist
+      api: abuseipdb-apiv2
+      actions: [download]
+      description: Community blacklist of high-confidence abusive IPs, filterable by score, country, and IP version.
+
+capability:
+  surfaces:
+    - name: ip-reputation-lookup
+      description: Read-only reputation lookup for single IPs, CIDR blocks, and historical reports.
+      operations: [checkIp, checkBlock, listReports]
+    - name: abuse-reporting
+      description: Write surface for single, bulk, and self-service clearing of abuse reports.
+      operations: [reportIp, bulkReportIps, clearAddress]
+    - name: blacklist-management
+      description: Download surface for the community blacklist with filtering.
+      operations: [getBlacklist]
+
+taxonomy:
+  reportCategories:
+    - id: 1
+      name: DNS Compromise
+    - id: 2
+      name: DNS Poisoning
+    - id: 3
+      name: Fraud Orders
+    - id: 4
+      name: DDoS Attack
+    - id: 5
+      name: FTP Brute-Force
+    - id: 6
+      name: Ping of Death
+    - id: 7
+      name: Phishing
+    - id: 8
+      name: Fraud VoIP
+    - id: 9
+      name: Open Proxy
+    - id: 10
+      name: Web Spam
+    - id: 11
+      name: Email Spam
+    - id: 12
+      name: Blog Spam
+    - id: 13
+      name: VPN IP
+    - id: 14
+      name: Port Scan
+    - id: 15
+      name: Hacking
+    - id: 16
+      name: SQL Injection
+    - id: 17
+      name: Spoofing
+    - id: 18
+      name: Brute-Force
+    - id: 19
+      name: Bad Web Bot
+    - id: 20
+      name: Exploited Host
+    - id: 21
+      name: Web App Attack
+    - id: 22
+      name: SSH
+    - id: 23
+      name: IoT Targeted
+
+  confidenceScore:
+    description: Integer 0-100 indicating how confidently AbuseIPDB believes an IP is malicious.
+    bands:
+      - range: "0-24"
+        meaning: Insufficient evidence of abuse.
+      - range: "25-74"
+        meaning: Suspicious activity reported but unverified.
+      - range: "75-99"
+        meaning: High confidence abuse; suitable for soft blocks.
+      - range: "100"
+        meaning: Maximum confidence; suitable for hard blocks via blacklist.
+
+  usageTypes:
+    - Commercial
+    - Data Center/Web Hosting/Transit
+    - Fixed Line ISP
+    - Government
+    - Library
+    - Military
+    - Mobile ISP
+    - Reserved
+    - Residential
+    - School/University
+    - Search Engine Spider
+    - University/College/School
+
+policy:
+  authentication:
+    type: apiKey
+    in: header
+    name: Key
+  transport: https-only
+  rateLimits:
+    headers:
+      - Retry-After
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - X-RateLimit-Reset
+    tiers:
+      - name: Individual (Free)
+        checksPerDay: 1000
+      - name: Basic
+        checksPerDay: 10000
+      - name: Premium
+        checksPerDay: 50000
+      - name: Enterprise
+        checksPerDay: custom

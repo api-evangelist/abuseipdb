@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/abuseipdb/main/json-schema/abuseipdb-check-response-schema.json",
+  "title": "AbuseIPDB Check Response",
+  "description": "Response envelope returned by GET /api/v2/check.",
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "type": "object",
+      "required": [
+        "ipAddress",
+        "isPublic",
+        "ipVersion",
+        "abuseConfidenceScore",
+        "totalReports",
+        "numDistinctUsers"
+      ],
+      "properties": {
+        "ipAddress": { "type": "string", "description": "The IPv4 or IPv6 address that was queried." },
+        "isPublic": { "type": "boolean", "description": "Whether the address is publicly routable." },
+        "ipVersion": { "type": "integer", "enum": [4, 6] },
+        "isWhitelisted": { "type": ["boolean", "null"], "description": "Whether the IP appears on any AbuseIPDB whitelist." },
+        "abuseConfidenceScore": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "countryCode": { "type": ["string", "null"], "description": "ISO 3166-1 alpha-2 country code." },
+        "countryName": { "type": ["string", "null"] },
+        "usageType": { "type": ["string", "null"], "description": "e.g. Data Center/Web Hosting/Transit, Commercial, Residential." },
+        "isp": { "type": ["string", "null"] },
+        "domain": { "type": ["string", "null"] },
+        "hostnames": { "type": "array", "items": { "type": "string" } },
+        "isTor": { "type": "boolean" },
+        "totalReports": { "type": "integer", "minimum": 0 },
+        "numDistinctUsers": { "type": "integer", "minimum": 0 },
+        "lastReportedAt": { "type": ["string", "null"], "format": "date-time" },
+        "reports": {
+          "type": "array",
+          "description": "Present only when verbose=true on the request.",
+          "items": { "$ref": "#/$defs/Report" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Report": {
+      "type": "object",
+      "properties": {
+        "reportedAt": { "type": "string", "format": "date-time" },
+        "comment": { "type": "string" },
+        "categories": { "type": "array", "items": { "type": "integer" } },
+        "reporterId": { "type": "integer" },
+        "reporterCountryCode": { "type": "string" },
+        "reporterCountryName": { "type": "string" }
+      }
+    }
+  }
+}

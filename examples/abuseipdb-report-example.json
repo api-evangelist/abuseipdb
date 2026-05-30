@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.abuseipdb.com/api/v2/report",
+    "headers": {
+      "Key": "YOUR_API_KEY",
+      "Accept": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "body": {
+      "ip": "127.0.0.2",
+      "categories": "18,22",
+      "comment": "SSH login attempts with user root.",
+      "timestamp": "2026-05-30T10:14:00+00:00"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "ipAddress": "127.0.0.2",
+        "abuseConfidenceScore": 52
+      }
+    }
+  }
+}

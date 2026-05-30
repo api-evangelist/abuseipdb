@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/abuseipdb/main/json-schema/abuseipdb-blacklist-entry-schema.json",
+  "title": "AbuseIPDB Blacklist Entry",
+  "description": "A single IP entry from the AbuseIPDB blacklist response.",
+  "type": "object",
+  "required": ["ipAddress", "abuseConfidenceScore"],
+  "properties": {
+    "ipAddress": { "type": "string", "description": "Blacklisted IPv4 or IPv6 address." },
+    "countryCode": { "type": ["string", "null"], "description": "ISO 3166-1 alpha-2 country code." },
+    "abuseConfidenceScore": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AbuseIPDB confidence score that the IP is malicious."
+    },
+    "lastReportedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the most recent report contributing to this entry."
+    }
+  }
+}
