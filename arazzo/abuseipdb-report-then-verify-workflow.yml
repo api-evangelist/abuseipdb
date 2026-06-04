@@ -1,0 +1,96 @@
+arazzo: 1.0.1
+info:
+  title: AbuseIPDB Report Then Verify
+  summary: Submit an abuse report for an IP and immediately re-check it to confirm the updated score.
+  description: >-
+    A closed-loop reporting pattern. The workflow files a fresh abuse report for
+    an IP address with the supplied categories and comment, then immediately
+    re-checks that same IP so the caller can confirm the report was recorded and
+    observe the resulting abuse confidence score. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: abuseipdbApi
+  url: ../openapi/abuseipdb-apiv2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: report-then-verify
+  summary: Report an abusive IP, then check it to verify the report landed.
+  description: >-
+    Submits an abuse report for the target IP and then performs a single-IP check
+    against the same address to confirm the report was accepted and to read back
+    the current abuse confidence score and total report count.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ipAddress
+    - categories
+    properties:
+      apiKey:
+        type: string
+        description: AbuseIPDB API key supplied via the Key header.
+      ipAddress:
+        type: string
+        description: The IPv4 or IPv6 address to report and then verify.
+      categories:
+        type: string
+        description: Comma-separated abuse category IDs to file the report under (up to 30).
+      comment:
+        type: string
+        description: Optional description and supporting log evidence for the report.
+      timestamp:
+        type: string
+        description: Optional ISO 8601 timestamp for when the abuse occurred.
+      maxAgeInDays:
+        type: integer
+        description: Restrict the reports considered on the verifying check to the last N days (1-365).
+        default: 30
+  steps:
+  - stepId: reportIp
+    description: >-
+      Submit a new abuse report for the IP using the supplied categories, comment,
+      and optional timestamp.
+    operationId: reportIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    requestBody:
+      contentType: application/x-www-form-urlencoded
+      payload:
+        ip: $inputs.ipAddress
+        categories: $inputs.categories
+        comment: $inputs.comment
+        timestamp: $inputs.timestamp
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      reportedIp: $response.body#/data/ipAddress
+      scoreAfterReport: $response.body#/data/abuseConfidenceScore
+  - stepId: verifyCheck
+    description: >-
+      Re-check the same IP to confirm the report was recorded and to read the
+      current abuse confidence score and total report count.
+    operationId: checkIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $steps.reportIp.outputs.reportedIp
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      abuseConfidenceScore: $response.body#/data/abuseConfidenceScore
+      totalReports: $response.body#/data/totalReports
+      lastReportedAt: $response.body#/data/lastReportedAt
+  outputs:
+    reportedIp: $steps.reportIp.outputs.reportedIp
+    abuseConfidenceScore: $steps.verifyCheck.outputs.abuseConfidenceScore
+    totalReports: $steps.verifyCheck.outputs.totalReports

@@ -1,0 +1,93 @@
+arazzo: 1.0.1
+info:
+  title: AbuseIPDB Clear False Positive
+  summary: Check an IP and clear your own reports against it when it turns out to be whitelisted or clean.
+  description: >-
+    A self-correction pattern for report hygiene. The workflow checks an IP's
+    reputation and branches on whether AbuseIPDB considers it whitelisted: when
+    the address is whitelisted (a likely false positive) it removes all of the
+    caller's own past reports for that address, and otherwise it ends without
+    touching anything. This keeps an account's reporting history accurate. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: abuseipdbApi
+  url: ../openapi/abuseipdb-apiv2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: clear-false-positive
+  summary: Check an IP and clear your own reports for it when it is whitelisted.
+  description: >-
+    Reads the IP's reputation and, when AbuseIPDB reports the address as
+    whitelisted, clears all of the caller's own past reports for that address to
+    retract a likely false positive.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ipAddress
+    properties:
+      apiKey:
+        type: string
+        description: AbuseIPDB API key supplied via the Key header.
+      ipAddress:
+        type: string
+        description: The IPv4 or IPv6 address to check and potentially clear reports for.
+      maxAgeInDays:
+        type: integer
+        description: Restrict reports considered on the check to the last N days (1-365).
+        default: 30
+  steps:
+  - stepId: checkIp
+    description: >-
+      Look up the IP's reputation, in particular whether AbuseIPDB has
+      whitelisted the address, to decide if past reports should be retracted.
+    operationId: checkIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $inputs.ipAddress
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      isWhitelisted: $response.body#/data/isWhitelisted
+      abuseConfidenceScore: $response.body#/data/abuseConfidenceScore
+    onSuccess:
+    - name: looksLikeFalsePositive
+      type: goto
+      stepId: clearAddress
+      criteria:
+      - context: $response.body
+        condition: $.data.isWhitelisted == true
+        type: jsonpath
+    - name: keepReports
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.isWhitelisted != true
+        type: jsonpath
+  - stepId: clearAddress
+    description: >-
+      Remove all of the caller's own past reports for the whitelisted IP address.
+    operationId: clearAddress
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $inputs.ipAddress
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      numReportsDeleted: $response.body#/data/numReportsDeleted
+  outputs:
+    isWhitelisted: $steps.checkIp.outputs.isWhitelisted
+    numReportsDeleted: $steps.clearAddress.outputs.numReportsDeleted

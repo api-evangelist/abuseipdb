@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: AbuseIPDB Block Scan And Check
+  summary: Scan a CIDR network block for reported addresses and deep-check the most abusive host.
+  description: >-
+    A triage pattern for network ranges. The workflow checks a CIDR block to
+    surface the addresses inside it that have abuse reports, then takes the first
+    reported host from that range and runs a full single-IP check against it to
+    pull its complete reputation profile. This turns a coarse block-level scan
+    into an actionable, host-level investigation. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: abuseipdbApi
+  url: ../openapi/abuseipdb-apiv2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: block-scan-and-check
+  summary: Check a CIDR block, then run a detailed check on the first reported address found.
+  description: >-
+    Queries a CIDR network for its reported addresses and, when at least one
+    reported host exists, runs a verbose single-IP check on that host to retrieve
+    its full abuse profile including recent reports.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - network
+    properties:
+      apiKey:
+        type: string
+        description: AbuseIPDB API key supplied via the Key header.
+      network:
+        type: string
+        description: A CIDR network range to scan (e.g. 192.0.2.0/24).
+      maxAgeInDays:
+        type: integer
+        description: Restrict reports considered to the last N days (1-365).
+        default: 30
+  steps:
+  - stepId: checkBlock
+    description: >-
+      Check the CIDR network range and collect the list of reported addresses it
+      contains so the worst host can be investigated individually.
+    operationId: checkBlock
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: network
+      in: query
+      value: $inputs.network
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      networkAddress: $response.body#/data/networkAddress
+      firstReportedIp: $response.body#/data/reportedAddress/0/ipAddress
+    onSuccess:
+    - name: hasReportedHosts
+      type: goto
+      stepId: checkHost
+      criteria:
+      - context: $response.body
+        condition: $.data.reportedAddress.length > 0
+        type: jsonpath
+    - name: cleanBlock
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.reportedAddress.length == 0
+        type: jsonpath
+  - stepId: checkHost
+    description: >-
+      Run a verbose single-IP check on the first reported address from the block
+      to pull its full reputation record and most recent reports.
+    operationId: checkIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $steps.checkBlock.outputs.firstReportedIp
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    - name: verbose
+      in: query
+      value: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      hostIp: $response.body#/data/ipAddress
+      abuseConfidenceScore: $response.body#/data/abuseConfidenceScore
+      totalReports: $response.body#/data/totalReports
+  outputs:
+    networkAddress: $steps.checkBlock.outputs.networkAddress
+    hostIp: $steps.checkHost.outputs.hostIp
+    hostScore: $steps.checkHost.outputs.abuseConfidenceScore

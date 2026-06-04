@@ -1,0 +1,111 @@
+arazzo: 1.0.1
+info:
+  title: AbuseIPDB Check Then Report
+  summary: Check an IP's reputation and conditionally file an abuse report based on its confidence score.
+  description: >-
+    A defensive SOC pattern that looks before it acts. The workflow first checks
+    the current abuse data for an IP address, then branches on the returned abuse
+    confidence score: when the score is below a supplied threshold (meaning the
+    address is not yet widely flagged) it submits a fresh abuse report so the
+    community catches up to the observed activity, and when the score is already
+    at or above the threshold it ends without re-reporting. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: abuseipdbApi
+  url: ../openapi/abuseipdb-apiv2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: check-then-report
+  summary: Check an IP and report it only when its abuse confidence score is below a threshold.
+  description: >-
+    Reads the abuse confidence score for the target IP and, when that score is
+    under the supplied threshold, submits an abuse report with the given
+    categories and comment. Already-flagged IPs are skipped.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ipAddress
+    - categories
+    properties:
+      apiKey:
+        type: string
+        description: AbuseIPDB API key supplied via the Key header.
+      ipAddress:
+        type: string
+        description: The IPv4 or IPv6 address to check and potentially report.
+      categories:
+        type: string
+        description: Comma-separated abuse category IDs to file the report under (up to 30).
+      comment:
+        type: string
+        description: Optional description and supporting log evidence for the report.
+      maxAgeInDays:
+        type: integer
+        description: Restrict the reports considered when scoring to the last N days (1-365).
+        default: 30
+      scoreThreshold:
+        type: integer
+        description: Only report when the existing abuse confidence score is below this value.
+        default: 50
+  steps:
+  - stepId: checkIp
+    description: >-
+      Look up the current abuse data for the IP, returning the abuse confidence
+      score used to decide whether a new report is warranted.
+    operationId: checkIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $inputs.ipAddress
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      abuseConfidenceScore: $response.body#/data/abuseConfidenceScore
+      totalReports: $response.body#/data/totalReports
+    onSuccess:
+    - name: needsReport
+      type: goto
+      stepId: reportIp
+      criteria:
+      - context: $response.body
+        condition: $.data.abuseConfidenceScore < $inputs.scoreThreshold
+        type: jsonpath
+    - name: alreadyFlagged
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.abuseConfidenceScore >= $inputs.scoreThreshold
+        type: jsonpath
+  - stepId: reportIp
+    description: >-
+      Submit a new abuse report for the IP using the supplied categories and
+      optional comment because its existing score was below the threshold.
+    operationId: reportIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    requestBody:
+      contentType: application/x-www-form-urlencoded
+      payload:
+        ip: $inputs.ipAddress
+        categories: $inputs.categories
+        comment: $inputs.comment
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      reportedIp: $response.body#/data/ipAddress
+      newScore: $response.body#/data/abuseConfidenceScore
+  outputs:
+    priorScore: $steps.checkIp.outputs.abuseConfidenceScore
+    reportedIp: $steps.reportIp.outputs.reportedIp
+    newScore: $steps.reportIp.outputs.newScore

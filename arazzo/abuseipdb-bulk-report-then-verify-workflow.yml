@@ -1,0 +1,101 @@
+arazzo: 1.0.1
+info:
+  title: AbuseIPDB Bulk Report Then Verify
+  summary: Upload a CSV of abuse reports in bulk, then spot-check one submitted IP to confirm it landed.
+  description: >-
+    A batch-submission pattern with a verification tail. The workflow uploads a
+    CSV file of abuse reports via the bulk-report endpoint, then performs a
+    single-IP check against a caller-supplied sample address from that batch to
+    confirm the submission was processed and to read back the resulting abuse
+    confidence score. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: abuseipdbApi
+  url: ../openapi/abuseipdb-apiv2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: bulk-report-then-verify
+  summary: Bulk-upload abuse reports, then check one sample IP to verify the batch was saved.
+  description: >-
+    Submits a CSV of abuse reports to the bulk-report endpoint and, when reports
+    are saved, runs a single-IP check against a sample IP from the batch to
+    confirm the submission registered.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - csv
+    - sampleIp
+    properties:
+      apiKey:
+        type: string
+        description: AbuseIPDB API key supplied via the Key header.
+      csv:
+        type: string
+        description: CSV file contents with columns IP, Categories, ReportDate, Comment.
+      sampleIp:
+        type: string
+        description: One IP address from the CSV batch to spot-check after upload.
+      maxAgeInDays:
+        type: integer
+        description: Restrict reports considered on the verifying check to the last N days (1-365).
+        default: 30
+  steps:
+  - stepId: bulkReport
+    description: >-
+      Upload the CSV batch of abuse reports and capture how many were saved
+      versus rejected.
+    operationId: bulkReportIps
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    requestBody:
+      contentType: multipart/form-data
+      payload:
+        csv: $inputs.csv
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      savedReports: $response.body#/data/savedReports
+      invalidReports: $response.body#/data/invalidReports
+    onSuccess:
+    - name: someSaved
+      type: goto
+      stepId: verifySample
+      criteria:
+      - context: $response.body
+        condition: $.data.savedReports > 0
+        type: jsonpath
+    - name: noneSaved
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.savedReports == 0
+        type: jsonpath
+  - stepId: verifySample
+    description: >-
+      Check one sample IP from the uploaded batch to confirm the bulk submission
+      was recorded and to read its current abuse confidence score.
+    operationId: checkIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $inputs.sampleIp
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ipAddress: $response.body#/data/ipAddress
+      abuseConfidenceScore: $response.body#/data/abuseConfidenceScore
+      totalReports: $response.body#/data/totalReports
+  outputs:
+    savedReports: $steps.bulkReport.outputs.savedReports
+    sampleIp: $steps.verifySample.outputs.ipAddress
+    sampleScore: $steps.verifySample.outputs.abuseConfidenceScore

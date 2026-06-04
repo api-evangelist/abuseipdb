@@ -1,0 +1,114 @@
+arazzo: 1.0.1
+info:
+  title: AbuseIPDB Investigate IP
+  summary: Check an IP and, when it is abusive, pull its full paginated report history.
+  description: >-
+    An incident-investigation pattern. The workflow checks an IP's reputation and
+    branches on the abuse confidence score: when the score meets or exceeds a
+    supplied threshold the address is treated as abusive and the workflow fetches
+    the full paginated list of recent reports for deeper analysis, and when the
+    score is below the threshold it ends without pulling the report history. Every
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: abuseipdbApi
+  url: ../openapi/abuseipdb-apiv2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: investigate-ip
+  summary: Check an IP and list its reports when the abuse confidence score is high enough.
+  description: >-
+    Reads the abuse confidence score for the target IP and, when that score is at
+    or above the supplied threshold, retrieves a page of recent reports for the
+    same IP so an analyst can review the underlying evidence.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - ipAddress
+    properties:
+      apiKey:
+        type: string
+        description: AbuseIPDB API key supplied via the Key header.
+      ipAddress:
+        type: string
+        description: The IPv4 or IPv6 address to investigate.
+      scoreThreshold:
+        type: integer
+        description: Pull the report history only when the abuse confidence score is at or above this value.
+        default: 75
+      maxAgeInDays:
+        type: integer
+        description: Restrict reports considered to the last N days (1-365).
+        default: 30
+      perPage:
+        type: integer
+        description: Number of reports to return per page when listing report history.
+        default: 25
+  steps:
+  - stepId: checkIp
+    description: >-
+      Look up the IP's abuse confidence score to decide whether its full report
+      history is worth retrieving.
+    operationId: checkIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $inputs.ipAddress
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      abuseConfidenceScore: $response.body#/data/abuseConfidenceScore
+      totalReports: $response.body#/data/totalReports
+    onSuccess:
+    - name: isAbusive
+      type: goto
+      stepId: listReports
+      criteria:
+      - context: $response.body
+        condition: $.data.abuseConfidenceScore >= $inputs.scoreThreshold
+        type: jsonpath
+    - name: belowThreshold
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.abuseConfidenceScore < $inputs.scoreThreshold
+        type: jsonpath
+  - stepId: listReports
+    description: >-
+      Retrieve the first page of recent reports for the IP so the supporting
+      evidence behind its high score can be reviewed.
+    operationId: listReports
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $inputs.ipAddress
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    - name: page
+      in: query
+      value: 1
+    - name: perPage
+      in: query
+      value: $inputs.perPage
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      total: $response.body#/data/total
+      lastPage: $response.body#/data/lastPage
+      results: $response.body#/data/results
+  outputs:
+    abuseConfidenceScore: $steps.checkIp.outputs.abuseConfidenceScore
+    totalReports: $steps.listReports.outputs.total
+    reports: $steps.listReports.outputs.results

@@ -1,0 +1,107 @@
+arazzo: 1.0.1
+info:
+  title: AbuseIPDB Blacklist Triage
+  summary: Download the community blacklist and enrich its top entry with a full single-IP check.
+  description: >-
+    A feed-enrichment pattern. The workflow downloads the AbuseIPDB community
+    blacklist filtered to a confidence floor, then takes the first entry from the
+    returned feed and runs a verbose single-IP check against it to pull the full
+    reputation profile before that address is pushed into a firewall or denylist.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: abuseipdbApi
+  url: ../openapi/abuseipdb-apiv2-openapi.yml
+  type: openapi
+workflows:
+- workflowId: blacklist-triage
+  summary: Pull the blacklist, then deep-check its first entry to enrich it before blocking.
+  description: >-
+    Downloads the community blacklist at or above a supplied confidence minimum
+    and, when at least one entry is returned, runs a verbose check on the first
+    listed IP to retrieve its full abuse profile and recent reports.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    properties:
+      apiKey:
+        type: string
+        description: AbuseIPDB API key supplied via the Key header.
+      confidenceMinimum:
+        type: integer
+        description: Minimum abuse confidence score for blacklist entries (25-100).
+        default: 100
+      limit:
+        type: integer
+        description: Maximum number of blacklist entries to return.
+        default: 100
+      maxAgeInDays:
+        type: integer
+        description: Restrict reports considered on the enrichment check to the last N days (1-365).
+        default: 30
+  steps:
+  - stepId: getBlacklist
+    description: >-
+      Download the community blacklist at or above the supplied confidence floor
+      and capture the first entry for enrichment.
+    operationId: getBlacklist
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: confidenceMinimum
+      in: query
+      value: $inputs.confidenceMinimum
+    - name: limit
+      in: query
+      value: $inputs.limit
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      generatedAt: $response.body#/meta/generatedAt
+      firstIp: $response.body#/data/0/ipAddress
+    onSuccess:
+    - name: hasEntries
+      type: goto
+      stepId: enrichEntry
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: emptyList
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: enrichEntry
+    description: >-
+      Run a verbose single-IP check on the first blacklist entry to pull its full
+      reputation profile and recent reports before it is blocked.
+    operationId: checkIp
+    parameters:
+    - name: Key
+      in: header
+      value: $inputs.apiKey
+    - name: ipAddress
+      in: query
+      value: $steps.getBlacklist.outputs.firstIp
+    - name: maxAgeInDays
+      in: query
+      value: $inputs.maxAgeInDays
+    - name: verbose
+      in: query
+      value: true
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ipAddress: $response.body#/data/ipAddress
+      abuseConfidenceScore: $response.body#/data/abuseConfidenceScore
+      countryCode: $response.body#/data/countryCode
+      isp: $response.body#/data/isp
+  outputs:
+    generatedAt: $steps.getBlacklist.outputs.generatedAt
+    enrichedIp: $steps.enrichEntry.outputs.ipAddress
+    enrichedScore: $steps.enrichEntry.outputs.abuseConfidenceScore

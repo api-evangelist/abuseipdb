@@ -122,6 +122,30 @@ apis:
       - type: NaftikoCapability
         url: capabilities/blacklist-management.yaml
 common:
+  - type: ArazzoWorkflows
+    url: arazzo/
+    workflows:
+    - url: arazzo/abuseipdb-blacklist-triage-workflow.yml
+      name: AbuseIPDB Blacklist Triage
+      summary: Download the community blacklist and enrich its top entry with a full single-IP check.
+    - url: arazzo/abuseipdb-block-scan-and-check-workflow.yml
+      name: AbuseIPDB Block Scan And Check
+      summary: Scan a CIDR network block for reported addresses and deep-check the most abusive host.
+    - url: arazzo/abuseipdb-bulk-report-then-verify-workflow.yml
+      name: AbuseIPDB Bulk Report Then Verify
+      summary: Upload a CSV of abuse reports in bulk, then spot-check one submitted IP to confirm it landed.
+    - url: arazzo/abuseipdb-check-then-report-workflow.yml
+      name: AbuseIPDB Check Then Report
+      summary: Check an IP's reputation and conditionally file an abuse report based on its confidence score.
+    - url: arazzo/abuseipdb-clear-false-positive-workflow.yml
+      name: AbuseIPDB Clear False Positive
+      summary: Check an IP and clear your own reports against it when it turns out to be whitelisted or clean.
+    - url: arazzo/abuseipdb-investigate-ip-workflow.yml
+      name: AbuseIPDB Investigate IP
+      summary: Check an IP and, when it is abusive, pull its full paginated report history.
+    - url: arazzo/abuseipdb-report-then-verify-workflow.yml
+      name: AbuseIPDB Report Then Verify
+      summary: Submit an abuse report for an IP and immediately re-check it to confirm the updated score.
   - type: Website
     url: https://www.abuseipdb.com/
   - type: Documentation
