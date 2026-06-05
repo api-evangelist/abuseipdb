@@ -1,11 +1,10 @@
 aid: abuseipdb
 name: AbuseIPDB
 description: >-
-  AbuseIPDB is a community-driven project to help system administrators, webmasters, and security
-  analysts check the reputation of IP addresses and report malicious activity. The free APIv2
-  surface lets developers query a single IP, check a CIDR block, retrieve paginated reports,
-  download a curated blacklist, submit single or bulk abuse reports, and clear their own past
-  reports for an address. AbuseIPDB underpins fail2ban, UFW, Cloudflare WAF, Wazuh, Splunk SOAR,
+  AbuseIPDB is a community-driven project to help system administrators, webmasters, and security analysts check the
+  reputation of IP addresses and report malicious activity. The free APIv2 surface lets developers query a single IP,
+  check a CIDR block, retrieve paginated reports, download a curated blacklist, submit single or bulk abuse reports, and
+  clear their own past reports for an address. AbuseIPDB underpins fail2ban, UFW, Cloudflare WAF, Wazuh, Splunk SOAR,
   and dozens of other firewall and SIEM integrations across the security community.
 url: https://docs.abuseipdb.com/
 humanURL: https://www.abuseipdb.com/
@@ -32,11 +31,10 @@ apis:
   - aid: abuseipdb:apiv2
     name: AbuseIPDB APIv2
     description: >-
-      AbuseIPDB APIv2 is a REST API that exposes the AbuseIPDB community blacklist, IP report
-      ingest, IP and CIDR reputation lookups, and self-service report cleanup. Authentication is
-      via an API key delivered in a `Key:` HTTP header; responses are returned as JSON (or
-      plaintext for the blacklist). The API is HTTPS only and enforces per-endpoint daily rate
-      limits that scale by subscription tier.
+      AbuseIPDB APIv2 is a REST API that exposes the AbuseIPDB community blacklist, IP report ingest, IP and CIDR
+      reputation lookups, and self-service report cleanup. Authentication is via an API key delivered in a `Key:` HTTP
+      header; responses are returned as JSON (or plaintext for the blacklist). The API is HTTPS only and enforces
+      per-endpoint daily rate limits that scale by subscription tier.
     humanURL: https://docs.abuseipdb.com/
     baseURL: https://api.abuseipdb.com/api/v2/
     tags:
@@ -58,11 +56,15 @@ apis:
       - type: APIReference
         url: https://docs.abuseipdb.com/#blacklist-endpoint
         name: BLACKLIST Endpoint
-        description: GET /blacklist — download the AbuseIPDB blacklist, with optional confidence, country, IP version, and limit filters.
+        description: >-
+          GET /blacklist — download the AbuseIPDB blacklist, with optional confidence, country, IP version, and limit
+          filters.
       - type: APIReference
         url: https://docs.abuseipdb.com/#report-endpoint
         name: REPORT Endpoint
-        description: POST /report — submit an abuse report for a single IP address with category IDs, optional comment and timestamp.
+        description: >-
+          POST /report — submit an abuse report for a single IP address with category IDs, optional comment and
+          timestamp.
       - type: APIReference
         url: https://docs.abuseipdb.com/#bulk-report-endpoint
         name: BULK-REPORT Endpoint
@@ -70,7 +72,9 @@ apis:
       - type: APIReference
         url: https://docs.abuseipdb.com/#check-block-endpoint
         name: CHECK-BLOCK Endpoint
-        description: GET /check-block — query abuse data for a CIDR network range (subscriber tiers can query larger ranges up to /16).
+        description: >-
+          GET /check-block — query abuse data for a CIDR network range (subscriber tiers can query larger ranges up to
+          /16).
       - type: APIReference
         url: https://docs.abuseipdb.com/#clear-address-endpoint
         name: CLEAR-ADDRESS Endpoint
@@ -80,7 +84,9 @@ apis:
         description: API key authentication. Pass the key in the `Key:` HTTP header (recommended) or as a `?key=` query parameter.
       - type: RateLimits
         url: https://docs.abuseipdb.com/#rate-limit-headers
-        description: Per-endpoint daily quotas scaled by plan. 429 responses include `Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers.
+        description: >-
+          Per-endpoint daily quotas scaled by plan. 429 responses include `Retry-After`, `X-RateLimit-Limit`,
+          `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers.
       - type: Errors
         url: https://docs.abuseipdb.com/#error-handling
         description: JSON API compliant error structure with HTTP status code as the primary error indicator.
@@ -115,37 +121,33 @@ apis:
         url: examples/abuseipdb-reports-example.json
       - type: Example
         url: examples/abuseipdb-bulk-report-example.json
-      - type: NaftikoCapability
-        url: capabilities/ip-reputation-lookup.yaml
-      - type: NaftikoCapability
-        url: capabilities/abuse-reporting.yaml
-      - type: NaftikoCapability
-        url: capabilities/blacklist-management.yaml
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/abuseipdb/overview
   - type: ArazzoWorkflows
     url: arazzo/
     workflows:
-    - url: arazzo/abuseipdb-blacklist-triage-workflow.yml
-      name: AbuseIPDB Blacklist Triage
-      summary: Download the community blacklist and enrich its top entry with a full single-IP check.
-    - url: arazzo/abuseipdb-block-scan-and-check-workflow.yml
-      name: AbuseIPDB Block Scan And Check
-      summary: Scan a CIDR network block for reported addresses and deep-check the most abusive host.
-    - url: arazzo/abuseipdb-bulk-report-then-verify-workflow.yml
-      name: AbuseIPDB Bulk Report Then Verify
-      summary: Upload a CSV of abuse reports in bulk, then spot-check one submitted IP to confirm it landed.
-    - url: arazzo/abuseipdb-check-then-report-workflow.yml
-      name: AbuseIPDB Check Then Report
-      summary: Check an IP's reputation and conditionally file an abuse report based on its confidence score.
-    - url: arazzo/abuseipdb-clear-false-positive-workflow.yml
-      name: AbuseIPDB Clear False Positive
-      summary: Check an IP and clear your own reports against it when it turns out to be whitelisted or clean.
-    - url: arazzo/abuseipdb-investigate-ip-workflow.yml
-      name: AbuseIPDB Investigate IP
-      summary: Check an IP and, when it is abusive, pull its full paginated report history.
-    - url: arazzo/abuseipdb-report-then-verify-workflow.yml
-      name: AbuseIPDB Report Then Verify
-      summary: Submit an abuse report for an IP and immediately re-check it to confirm the updated score.
+      - url: arazzo/abuseipdb-blacklist-triage-workflow.yml
+        name: AbuseIPDB Blacklist Triage
+        summary: Download the community blacklist and enrich its top entry with a full single-IP check.
+      - url: arazzo/abuseipdb-block-scan-and-check-workflow.yml
+        name: AbuseIPDB Block Scan And Check
+        summary: Scan a CIDR network block for reported addresses and deep-check the most abusive host.
+      - url: arazzo/abuseipdb-bulk-report-then-verify-workflow.yml
+        name: AbuseIPDB Bulk Report Then Verify
+        summary: Upload a CSV of abuse reports in bulk, then spot-check one submitted IP to confirm it landed.
+      - url: arazzo/abuseipdb-check-then-report-workflow.yml
+        name: AbuseIPDB Check Then Report
+        summary: Check an IP's reputation and conditionally file an abuse report based on its confidence score.
+      - url: arazzo/abuseipdb-clear-false-positive-workflow.yml
+        name: AbuseIPDB Clear False Positive
+        summary: Check an IP and clear your own reports against it when it turns out to be whitelisted or clean.
+      - url: arazzo/abuseipdb-investigate-ip-workflow.yml
+        name: AbuseIPDB Investigate IP
+        summary: Check an IP and, when it is abusive, pull its full paginated report history.
+      - url: arazzo/abuseipdb-report-then-verify-workflow.yml
+        name: AbuseIPDB Report Then Verify
+        summary: Submit an abuse report for an IP and immediately re-check it to confirm the updated score.
   - type: Website
     url: https://www.abuseipdb.com/
   - type: Documentation
@@ -161,8 +163,8 @@ common:
   - type: Pricing
     url: https://www.abuseipdb.com/pricing
     description: >-
-      Four tiers — Individual (free, 1,000 checks/day), Basic ($25/mo or $228/yr, 10,000 checks/day),
-      Premium ($99/mo or $1,068/yr, 50,000 checks/day), and Enterprise (custom direct-data access).
+      Four tiers — Individual (free, 1,000 checks/day), Basic ($25/mo or $228/yr, 10,000 checks/day), Premium ($99/mo or
+      $1,068/yr, 50,000 checks/day), and Enterprise (custom direct-data access).
   - type: Plans
     url: plans/abuseipdb-plans-pricing.yml
   - type: RateLimits
@@ -190,7 +192,9 @@ common:
     url: https://www.abuseipdb.com/privacy-policy
   - type: GitHubOrganization
     url: https://github.com/AbuseIPDB
-    description: Official AbuseIPDB org. Hosts `laravel` (Laravel AbuseIPDB middleware package) and `ip-lib` (forked PHP IPv4/IPv6 range library).
+    description: >-
+      Official AbuseIPDB org. Hosts `laravel` (Laravel AbuseIPDB middleware package) and `ip-lib` (forked PHP IPv4/IPv6
+      range library).
   - type: SDK
     url: https://github.com/AbuseIPDB/laravel
     name: AbuseIPDB Laravel Package
@@ -220,13 +224,17 @@ common:
       - name: Fail2Ban
         description: Pre-packaged AbuseIPDB action ships with fail2ban; reports banned offenders directly to AbuseIPDB.
       - name: UFW (Uncomplicated Firewall)
-        description: Multiple community projects (sefinek/UFW-AbuseIPDB-Reporter, jseutens/ufw-abuseipdb) ingest UFW logs and report or ingest the AbuseIPDB blacklist.
+        description: >-
+          Multiple community projects (sefinek/UFW-AbuseIPDB-Reporter, jseutens/ufw-abuseipdb) ingest UFW logs and
+          report or ingest the AbuseIPDB blacklist.
       - name: Cloudflare WAF
         description: sefinek/Cloudflare-WAF-To-AbuseIPDB streams Cloudflare WAF events into AbuseIPDB reports.
       - name: Splunk SOAR
         description: Official splunk-soar-connectors/abuseipdb connector enriches Splunk SOAR playbooks with AbuseIPDB reputation.
       - name: Wazuh
-        description: marciuscosta/abuseipdb-wazuh-integration wires AbuseIPDB enrichment into Wazuh with a local cache and multi-key support.
+        description: >-
+          marciuscosta/abuseipdb-wazuh-integration wires AbuseIPDB enrichment into Wazuh with a local cache and
+          multi-key support.
       - name: CrowdSec
         description: goremykin/crowdsec-abuseipdb-blocklist converts CrowdSec data into AbuseIPDB blocklists.
       - name: Endlessh
@@ -242,15 +250,25 @@ common:
   - type: Features
     data:
       - name: IP Reputation Lookups
-        description: Query any IPv4 or IPv6 address for its abuse confidence score, total reports, distinct reporters, and country/ISP metadata.
+        description: >-
+          Query any IPv4 or IPv6 address for its abuse confidence score, total reports, distinct reporters, and
+          country/ISP metadata.
       - name: Community-Sourced Blacklist
-        description: Downloadable daily blacklist of high-confidence abusive IPs, with configurable confidence threshold, country filters, IP version, and result limit.
+        description: >-
+          Downloadable daily blacklist of high-confidence abusive IPs, with configurable confidence threshold, country
+          filters, IP version, and result limit.
       - name: Abuse Reporting
-        description: Submit single or bulk abuse reports tagged with one or more standard category IDs (e.g. SSH Brute-Force, DDoS, Web App Attack).
+        description: >-
+          Submit single or bulk abuse reports tagged with one or more standard category IDs (e.g. SSH Brute-Force, DDoS,
+          Web App Attack).
       - name: CIDR Block Checking
-        description: Score whole subnets in one call via the CHECK-BLOCK endpoint, with subscriber tiers supporting up to /16 networks.
+        description: >-
+          Score whole subnets in one call via the CHECK-BLOCK endpoint, with subscriber tiers supporting up to /16
+          networks.
       - name: Categorised Abuse Taxonomy
-        description: 23 standard report categories (DNS Compromise, Open Proxy, Brute-Force, Phishing, etc.) for consistent classification.
+        description: >-
+          23 standard report categories (DNS Compromise, Open Proxy, Brute-Force, Phishing, etc.) for consistent
+          classification.
       - name: Self-Service Report Clearing
         description: Remove your own reports for a given IP via the CLEAR-ADDRESS endpoint if a report was made in error.
       - name: Standard Rate-Limit Headers
@@ -268,7 +286,9 @@ common:
       - name: Bot and Crawler Filtering
         description: Score request source IPs before serving e-commerce or login pages to block known-abusive infrastructure.
       - name: Threat Hunting and OSINT
-        description: Combine AbuseIPDB with VirusTotal, Shodan, GreyNoise and similar feeds (e.g. malwoverview) during incident response.
+        description: >-
+          Combine AbuseIPDB with VirusTotal, Shodan, GreyNoise and similar feeds (e.g. malwoverview) during incident
+          response.
       - name: Bulk Reporting from Edge Logs
         description: Convert nightly access logs into CSV bulk reports to feed the AbuseIPDB community blacklist.
   - type: Solutions
