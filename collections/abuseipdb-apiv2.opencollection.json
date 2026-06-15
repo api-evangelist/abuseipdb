@@ -1,0 +1,247 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AbuseIPDB APIv2",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Key",
+      "value": "{{Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reputation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check an IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/check",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "query",
+                "description": "The IPv4 or IPv6 address to check."
+              },
+              {
+                "name": "maxAgeInDays",
+                "value": "",
+                "type": "query",
+                "description": "Restrict reports considered to those within the last N days (1-365, default 30)."
+              },
+              {
+                "name": "verbose",
+                "value": "",
+                "type": "query",
+                "description": "When present, include the most recent reports in the response."
+              }
+            ]
+          },
+          "docs": "Returns the current abuse data for a single IPv4 or IPv6 address,\nincluding the abuse confidence score, country, ISP, usage type, and\n(when `verbose` is set) the most recent reports.\n"
+        },
+        {
+          "info": {
+            "name": "Check a CIDR Network Block",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/check-block",
+            "params": [
+              {
+                "name": "network",
+                "value": "",
+                "type": "query",
+                "description": "A CIDR network range (e.g. `192.0.2.0/24`)."
+              },
+              {
+                "name": "maxAgeInDays",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to reports within the last N days (1-365, default 30)."
+              }
+            ]
+          },
+          "docs": "Returns the abuse data for a CIDR network range. Free accounts may query\nranges up to /24; subscriber tiers can query up to /16.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Reports for an IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/reports",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "query",
+                "description": "The IPv4 or IPv6 address whose reports should be returned."
+              },
+              {
+                "name": "maxAgeInDays",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to reports within the last N days (1-365, default 30)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to return (1-based)."
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of reports per page."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of recent reports for a given IP address."
+        },
+        {
+          "info": {
+            "name": "Report an Abusive IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.abuseipdb.com/api/v2/report",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Submit a new abuse report for an IP address with one or more category\nIDs, an optional comment, and an optional ISO 8601 timestamp.\n"
+        },
+        {
+          "info": {
+            "name": "Bulk Report Abusive IP Addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.abuseipdb.com/api/v2/bulk-report",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "csv",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Submit many abuse reports at once via a CSV multipart upload."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Blacklist",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download the AbuseIPDB Blacklist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/blacklist",
+            "params": [
+              {
+                "name": "confidenceMinimum",
+                "value": "",
+                "type": "query",
+                "description": "Minimum confidence score (25-100, default 100; subscriber feature below 100)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entries to return (varies by plan, up to 500,000)."
+              },
+              {
+                "name": "onlyCountries",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated ISO 3166-1 alpha-2 country codes to include (subscriber feature)."
+              },
+              {
+                "name": "exceptCountries",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated ISO 3166-1 alpha-2 country codes to exclude (subscriber feature)."
+              },
+              {
+                "name": "ipVersion",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to a specific IP version (4 or 6)."
+              },
+              {
+                "name": "plaintext",
+                "value": "",
+                "type": "query",
+                "description": "When present, return one IP per line as text/plain instead of JSON."
+              }
+            ]
+          },
+          "docs": "Returns the AbuseIPDB blacklist. Free accounts receive up to 10,000\nentries; subscriber tiers can customise the confidence floor, country\nfilters, IP version, and maximum result count.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Clear Your Reports for an IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.abuseipdb.com/api/v2/clear-address",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "query",
+                "description": "The IPv4 or IPv6 address whose reports (filed by your account) should be cleared."
+              }
+            ]
+          },
+          "docs": "Remove all of your own past reports for the given IP address."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

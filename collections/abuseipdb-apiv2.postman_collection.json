@@ -1,0 +1,2335 @@
+{
+  "item": [
+    {
+      "id": "13669706-81bf-479e-83ef-175af95fec3c",
+      "name": "Reputation",
+      "description": {
+        "content": "Endpoints for looking up the abuse data of an IP or CIDR network.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a0920de9-f09a-4b10-b006-78ec30013661",
+          "name": "Check an IP Address",
+          "request": {
+            "name": "Check an IP Address",
+            "description": {
+              "content": "Returns the current abuse data for a single IPv4 or IPv6 address,\nincluding the abuse confidence score, country, ISP, usage type, and\n(when `verbose` is set) the most recent reports.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "check"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ipAddress",
+                  "value": "<ip>",
+                  "description": "(Required) The IPv4 or IPv6 address to check."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxAgeInDays",
+                  "value": "30",
+                  "description": "Restrict reports considered to those within the last N days (1-365, default 30)."
+                },
+                {
+                  "disabled": false,
+                  "key": "verbose",
+                  "value": "<boolean>",
+                  "description": "When present, include the most recent reports in the response."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fc024638-ee07-4d42-af3a-9904b7c667ce",
+              "name": "Abuse data for the requested IP.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "verbose",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"ipAddress\": \"string\",\n    \"isPublic\": false,\n    \"ipVersion\": 4,\n    \"isWhitelisted\": true,\n    \"abuseConfidenceScore\": 14,\n    \"countryCode\": \"string\",\n    \"countryName\": \"string\",\n    \"usageType\": \"string\",\n    \"isp\": \"string\",\n    \"domain\": \"string\",\n    \"hostnames\": [\n      \"string\",\n      \"string\"\n    ],\n    \"isTor\": true,\n    \"totalReports\": 5617,\n    \"numDistinctUsers\": 1508,\n    \"lastReportedAt\": \"1994-07-22T14:59:25.371Z\",\n    \"reports\": [\n      {\n        \"reportedAt\": \"1952-07-26T05:28:05.058Z\",\n        \"comment\": \"string\",\n        \"categories\": [\n          2527,\n          2550\n        ],\n        \"reporterId\": 890,\n        \"reporterCountryCode\": \"string\",\n        \"reporterCountryName\": \"string\"\n      },\n      {\n        \"reportedAt\": \"1969-10-23T03:55:52.836Z\",\n        \"comment\": \"string\",\n        \"categories\": [\n          1985,\n          4834\n        ],\n        \"reporterId\": 243,\n        \"reporterCountryCode\": \"string\",\n        \"reporterCountryName\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "873483a2-4d0b-4fd6-90db-8bd945cbf65f",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "verbose",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28d6d189-7aa0-472f-abb0-bdfe0cdeab37",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "verbose",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ddfd695f-8688-4020-b468-4ed27b911267",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "verbose",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "3176"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f6e318a4-969d-442b-9449-e5adc65d0bbc",
+          "name": "Check a CIDR Network Block",
+          "request": {
+            "name": "Check a CIDR Network Block",
+            "description": {
+              "content": "Returns the abuse data for a CIDR network range. Free accounts may query\nranges up to /24; subscriber tiers can query up to /16.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "check-block"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "network",
+                  "value": "<string>",
+                  "description": "(Required) A CIDR network range (e.g. `192.0.2.0/24`)."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxAgeInDays",
+                  "value": "30",
+                  "description": "Restrict to reports within the last N days (1-365, default 30)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "83d5634c-7463-4182-afa9-9c6a45c6e4f1",
+              "name": "Abuse data for the network range.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check-block"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "network",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"networkAddress\": \"string\",\n    \"netmask\": \"string\",\n    \"minAddress\": \"string\",\n    \"maxAddress\": \"string\",\n    \"numPossibleHosts\": 9700,\n    \"addressSpaceDesc\": \"string\",\n    \"reportedAddress\": [\n      {\n        \"ipAddress\": \"string\",\n        \"isPublic\": true,\n        \"ipVersion\": 4,\n        \"isWhitelisted\": false,\n        \"abuseConfidenceScore\": 7,\n        \"countryCode\": \"string\",\n        \"countryName\": \"string\",\n        \"usageType\": \"string\",\n        \"isp\": \"string\",\n        \"domain\": \"string\",\n        \"hostnames\": [\n          \"string\",\n          \"string\"\n        ],\n        \"isTor\": true,\n        \"totalReports\": 8632,\n        \"numDistinctUsers\": 3100,\n        \"lastReportedAt\": \"2001-04-03T23:27:16.475Z\",\n        \"reports\": [\n          {\n            \"reportedAt\": \"1970-04-01T11:31:15.918Z\",\n            \"comment\": \"string\",\n            \"categories\": [\n              946,\n              3748\n            ],\n            \"reporterId\": 9670,\n            \"reporterCountryCode\": \"string\",\n            \"reporterCountryName\": \"string\"\n          },\n          {\n            \"reportedAt\": \"1961-11-09T01:01:50.711Z\",\n            \"comment\": \"string\",\n            \"categories\": [\n              1127,\n              7562\n            ],\n            \"reporterId\": 736,\n            \"reporterCountryCode\": \"string\",\n            \"reporterCountryName\": \"string\"\n          }\n        ]\n      },\n      {\n        \"ipAddress\": \"string\",\n        \"isPublic\": false,\n        \"ipVersion\": 4,\n        \"isWhitelisted\": true,\n        \"abuseConfidenceScore\": 94,\n        \"countryCode\": \"string\",\n        \"countryName\": \"string\",\n        \"usageType\": \"string\",\n        \"isp\": \"string\",\n        \"domain\": \"string\",\n        \"hostnames\": [\n          \"string\",\n          \"string\"\n        ],\n        \"isTor\": false,\n        \"totalReports\": 3948,\n        \"numDistinctUsers\": 9845,\n        \"lastReportedAt\": \"1975-10-20T16:27:20.963Z\",\n        \"reports\": [\n          {\n            \"reportedAt\": \"1998-02-26T06:46:48.505Z\",\n            \"comment\": \"string\",\n            \"categories\": [\n              3224,\n              1816\n            ],\n            \"reporterId\": 3146,\n            \"reporterCountryCode\": \"string\",\n            \"reporterCountryName\": \"string\"\n          },\n          {\n            \"reportedAt\": \"2001-06-05T16:00:53.150Z\",\n            \"comment\": \"string\",\n            \"categories\": [\n              7555,\n              9429\n            ],\n            \"reporterId\": 424,\n            \"reporterCountryCode\": \"string\",\n            \"reporterCountryName\": \"string\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1a48a0b-b325-4558-8e53-c1aff05a0134",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check-block"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "network",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fcc6b53-06ff-4a07-a850-d3f536e11492",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check-block"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "network",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d947abd2-7169-462f-921a-9087ab699b72",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "check-block"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "network",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "3176"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "28dd19ba-b5bc-4f21-86ac-0f9ba0918ca1",
+      "name": "Reports",
+      "description": {
+        "content": "Endpoints for submitting and retrieving abuse reports.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "35a148a3-ebe4-4f00-90c0-857d48185c1e",
+          "name": "List Reports for an IP Address",
+          "request": {
+            "name": "List Reports for an IP Address",
+            "description": {
+              "content": "Returns a paginated list of recent reports for a given IP address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reports"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ipAddress",
+                  "value": "<ip>",
+                  "description": "(Required) The IPv4 or IPv6 address whose reports should be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "maxAgeInDays",
+                  "value": "30",
+                  "description": "Restrict to reports within the last N days (1-365, default 30)."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number to return (1-based)."
+                },
+                {
+                  "disabled": false,
+                  "key": "perPage",
+                  "value": "25",
+                  "description": "Number of reports per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9a6fe753-c82e-45a1-a352-e88a8237ac13",
+              "name": "A page of reports.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"total\": 6356,\n    \"page\": 2776,\n    \"count\": 9151,\n    \"perPage\": 8390,\n    \"lastPage\": 1828,\n    \"nextPageUrl\": \"string\",\n    \"previousPageUrl\": \"string\",\n    \"results\": [\n      {\n        \"reportedAt\": \"1966-11-18T19:15:07.032Z\",\n        \"comment\": \"string\",\n        \"categories\": [\n          4574,\n          1580\n        ],\n        \"reporterId\": 4904,\n        \"reporterCountryCode\": \"string\",\n        \"reporterCountryName\": \"string\"\n      },\n      {\n        \"reportedAt\": \"2008-07-16T02:44:47.401Z\",\n        \"comment\": \"string\",\n        \"categories\": [\n          3375,\n          4785\n        ],\n        \"reporterId\": 154,\n        \"reporterCountryCode\": \"string\",\n        \"reporterCountryName\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d9dd96e-f985-4442-a6e4-aff75422b27f",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9de6549a-6e62-4a37-81c6-d76a12546a16",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8627150e-9841-4aff-9520-484147816835",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    },
+                    {
+                      "key": "maxAgeInDays",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "perPage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "3176"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ae4ba16c-955f-47bb-9ee8-290bea685a24",
+          "name": "Report an Abusive IP Address",
+          "request": {
+            "name": "Report an Abusive IP Address",
+            "description": {
+              "content": "Submit a new abuse report for an IP address with one or more category\nIDs, an optional comment, and an optional ISO 8601 timestamp.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "report"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": false,
+                  "key": "ip",
+                  "value": "<string>",
+                  "description": "(Required) IPv4 or IPv6 address to report."
+                },
+                {
+                  "disabled": false,
+                  "key": "categories",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated category IDs (up to 30)."
+                },
+                {
+                  "disabled": false,
+                  "key": "comment",
+                  "value": "<string>",
+                  "description": "Optional description and supporting log evidence."
+                },
+                {
+                  "disabled": false,
+                  "key": "timestamp",
+                  "value": "<dateTime>",
+                  "description": "Optional ISO 8601 timestamp when the abuse occurred."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e92dc6f0-2b02-432c-bba7-9114127bda6a",
+              "name": "The report was accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IPv4 or IPv6 address to report.",
+                        "type": "text/plain"
+                      },
+                      "key": "ip",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Comma-separated category IDs (up to 30).",
+                        "type": "text/plain"
+                      },
+                      "key": "categories",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional description and supporting log evidence.",
+                        "type": "text/plain"
+                      },
+                      "key": "comment",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional ISO 8601 timestamp when the abuse occurred.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<dateTime>"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"ipAddress\": \"string\",\n    \"abuseConfidenceScore\": 2581\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14c42099-9eb5-4387-a36d-5ccb4b1fedd8",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IPv4 or IPv6 address to report.",
+                        "type": "text/plain"
+                      },
+                      "key": "ip",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Comma-separated category IDs (up to 30).",
+                        "type": "text/plain"
+                      },
+                      "key": "categories",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional description and supporting log evidence.",
+                        "type": "text/plain"
+                      },
+                      "key": "comment",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional ISO 8601 timestamp when the abuse occurred.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<dateTime>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fccb7956-893c-4f2c-9734-07f4c1be7ae5",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IPv4 or IPv6 address to report.",
+                        "type": "text/plain"
+                      },
+                      "key": "ip",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Comma-separated category IDs (up to 30).",
+                        "type": "text/plain"
+                      },
+                      "key": "categories",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional description and supporting log evidence.",
+                        "type": "text/plain"
+                      },
+                      "key": "comment",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional ISO 8601 timestamp when the abuse occurred.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<dateTime>"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "545c1f76-960f-431c-b575-60f21d8c4a90",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) IPv4 or IPv6 address to report.",
+                        "type": "text/plain"
+                      },
+                      "key": "ip",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "(Required) Comma-separated category IDs (up to 30).",
+                        "type": "text/plain"
+                      },
+                      "key": "categories",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional description and supporting log evidence.",
+                        "type": "text/plain"
+                      },
+                      "key": "comment",
+                      "value": "<string>"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Optional ISO 8601 timestamp when the abuse occurred.",
+                        "type": "text/plain"
+                      },
+                      "key": "timestamp",
+                      "value": "<dateTime>"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "3176"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb3cce6d-c3e3-434c-a68c-866f5e1c04e3",
+          "name": "Bulk Report Abusive IP Addresses",
+          "request": {
+            "name": "Bulk Report Abusive IP Addresses",
+            "description": {
+              "content": "Submit many abuse reports at once via a CSV multipart upload.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "bulk-report"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "csv",
+                  "type": "file",
+                  "description": "(Required) CSV file with columns: IP, Categories, ReportDate, Comment.\n"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a0546e2d-f5d4-4075-b8b8-408a6ed258f4",
+              "name": "Bulk report accepted; summary of saved/invalid entries returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) CSV file with columns: IP, Categories, ReportDate, Comment.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "csv",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"savedReports\": 7795,\n    \"invalidReports\": [\n      {\n        \"error\": \"string\",\n        \"input\": \"string\",\n        \"rowNumber\": 8189\n      },\n      {\n        \"error\": \"string\",\n        \"input\": \"string\",\n        \"rowNumber\": 9711\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bccd4fae-92c2-48b6-a602-c69c21c4408b",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) CSV file with columns: IP, Categories, ReportDate, Comment.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "csv",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45a8bd26-2918-4021-8496-a4683e79db65",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) CSV file with columns: IP, Categories, ReportDate, Comment.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "csv",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "906e7ed8-a0cf-4951-a5f7-8fe1bf49e2c4",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "bulk-report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) CSV file with columns: IP, Categories, ReportDate, Comment.\n",
+                        "type": "text/plain"
+                      },
+                      "key": "csv",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "3176"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "93591afe-c462-4b05-b7a0-7b956f981bcf",
+      "name": "Blacklist",
+      "description": {
+        "content": "Endpoints for downloading the community blacklist.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e2c4b3f3-18b0-40c4-8eee-ae831e280cbb",
+          "name": "Download the AbuseIPDB Blacklist",
+          "request": {
+            "name": "Download the AbuseIPDB Blacklist",
+            "description": {
+              "content": "Returns the AbuseIPDB blacklist. Free accounts receive up to 10,000\nentries; subscriber tiers can customise the confidence floor, country\nfilters, IP version, and maximum result count.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blacklist"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "confidenceMinimum",
+                  "value": "100",
+                  "description": "Minimum confidence score (25-100, default 100; subscriber feature below 100)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of entries to return (varies by plan, up to 500,000)."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyCountries",
+                  "value": "<string>",
+                  "description": "Comma-separated ISO 3166-1 alpha-2 country codes to include (subscriber feature)."
+                },
+                {
+                  "disabled": false,
+                  "key": "exceptCountries",
+                  "value": "<string>",
+                  "description": "Comma-separated ISO 3166-1 alpha-2 country codes to exclude (subscriber feature)."
+                },
+                {
+                  "disabled": false,
+                  "key": "ipVersion",
+                  "value": "<integer>",
+                  "description": "Restrict to a specific IP version (4 or 6)."
+                },
+                {
+                  "disabled": false,
+                  "key": "plaintext",
+                  "value": "<boolean>",
+                  "description": "When present, return one IP per line as text/plain instead of JSON."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7bbb7bb7-0f27-4779-afc8-bbbeeb209f88",
+              "name": "A blacklist response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blacklist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "confidenceMinimum",
+                      "value": "100"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exceptCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ipVersion",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "plaintext",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"generatedAt\": \"1985-08-03T17:37:34.837Z\"\n  },\n  \"data\": [\n    {\n      \"ipAddress\": \"string\",\n      \"countryCode\": \"string\",\n      \"abuseConfidenceScore\": 6,\n      \"lastReportedAt\": \"2006-07-09T12:10:11.011Z\"\n    },\n    {\n      \"ipAddress\": \"string\",\n      \"countryCode\": \"string\",\n      \"abuseConfidenceScore\": 71,\n      \"lastReportedAt\": \"1974-03-23T09:32:58.557Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e38552f7-e3f5-4ef6-bdf3-f18661b27303",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blacklist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "confidenceMinimum",
+                      "value": "100"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exceptCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ipVersion",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "plaintext",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1fcd69f5-7b83-43b9-b163-6e080806f1ae",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blacklist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "confidenceMinimum",
+                      "value": "100"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exceptCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ipVersion",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "plaintext",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e273f19-99df-42e3-ab9b-d2c25da67472",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blacklist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "confidenceMinimum",
+                      "value": "100"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "onlyCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exceptCountries",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ipVersion",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "plaintext",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "3176"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "0c31d3fe-f07a-4d72-b765-551458d806ce",
+      "name": "Management",
+      "description": {
+        "content": "Endpoints for managing your own reports.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1bfa660c-3008-4a8a-ab60-beb23afd10b9",
+          "name": "Clear Your Reports for an IP Address",
+          "request": {
+            "name": "Clear Your Reports for an IP Address",
+            "description": {
+              "content": "Remove all of your own past reports for the given IP address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "clear-address"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ipAddress",
+                  "value": "<ip>",
+                  "description": "(Required) The IPv4 or IPv6 address whose reports (filed by your account) should be cleared."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e6ca7f5e-bc5d-4fec-af09-1276d118c5bb",
+              "name": "Reports cleared successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"numReportsDeleted\": 6275\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d27f1b60-0011-45d4-b55c-2fed3ce8bdbc",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 5204,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5295,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e116ea94-618f-48cd-9387-c49d4d95966f",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8fad54ba-aeda-4432-a928-8e528c0b9a60",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3176"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "3176"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 4664,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 5855,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.abuseipdb.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "98f86789-3097-43fd-a943-7cb31cdb6634",
+    "name": "AbuseIPDB APIv2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "AbuseIPDB APIv2 is a REST API for querying IP reputation, downloading the\ncommunity blacklist, submitting single and bulk abuse reports, checking\nCIDR network ranges, and clearing your own past reports. All requests are\nauthenticated with an API key supplied via the `Key` HTTP header and must\nbe made over HTTPS. Responses are returned as JSON unless otherwise noted.\n\n\nContact Support:\n Name: AbuseIPDB Support",
+      "type": "text/plain"
+    }
+  }
+}
