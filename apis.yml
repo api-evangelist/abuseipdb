@@ -122,6 +122,10 @@ apis:
       - type: Examples
         url: examples/abuseipdb-bulk-report-example.json
 common:
+  - type: DomainSecurity
+    url: security/abuseipdb-domain-security.yml
+  - type: Authentication
+    url: authentication/abuseipdb-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/abuseipdb/overview
   - type: Arazzo

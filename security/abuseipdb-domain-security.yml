@@ -1,0 +1,25 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.abuseipdb.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  9 04:12:19 2026 GMT
+  hsts: null
+- host: docs.abuseipdb.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  9 04:12:19 2026 GMT
+  hsts: false
+- host: api.abuseipdb.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  9 04:12:19 2026 GMT
+  hsts: null
+domains:
+- domain: abuseipdb.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: false
