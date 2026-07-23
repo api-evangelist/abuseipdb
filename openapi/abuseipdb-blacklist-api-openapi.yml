@@ -1,0 +1,192 @@
+openapi: 3.0.3
+info:
+  title: AbuseIPDB APIv2 Blacklist API
+  description: 'AbuseIPDB APIv2 is a REST API for querying IP reputation, downloading the
+
+    community blacklist, submitting single and bulk abuse reports, checking
+
+    CIDR network ranges, and clearing your own past reports. All requests are
+
+    authenticated with an API key supplied via the `Key` HTTP header and must
+
+    be made over HTTPS. Responses are returned as JSON unless otherwise noted.
+
+    '
+  version: 2.0.0
+  contact:
+    name: AbuseIPDB Support
+    url: https://www.abuseipdb.com/contact
+  license:
+    name: AbuseIPDB Terms of Service
+    url: https://www.abuseipdb.com/terms-of-service
+  termsOfService: https://www.abuseipdb.com/terms-of-service
+servers:
+- url: https://api.abuseipdb.com/api/v2
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Blacklist
+  description: Endpoints for downloading the community blacklist.
+paths:
+  /blacklist:
+    get:
+      operationId: getBlacklist
+      tags:
+      - Blacklist
+      summary: Download the AbuseIPDB Blacklist
+      description: 'Returns the AbuseIPDB blacklist. Free accounts receive up to 10,000
+
+        entries; subscriber tiers can customise the confidence floor, country
+
+        filters, IP version, and maximum result count.
+
+        '
+      parameters:
+      - name: confidenceMinimum
+        in: query
+        description: Minimum confidence score (25-100, default 100; subscriber feature below 100).
+        schema:
+          type: integer
+          minimum: 25
+          maximum: 100
+          default: 100
+      - name: limit
+        in: query
+        description: Maximum number of entries to return (varies by plan, up to 500,000).
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 500000
+      - name: onlyCountries
+        in: query
+        description: Comma-separated ISO 3166-1 alpha-2 country codes to include (subscriber feature).
+        schema:
+          type: string
+      - name: exceptCountries
+        in: query
+        description: Comma-separated ISO 3166-1 alpha-2 country codes to exclude (subscriber feature).
+        schema:
+          type: string
+      - name: ipVersion
+        in: query
+        description: Restrict to a specific IP version (4 or 6).
+        schema:
+          type: integer
+          enum:
+          - 4
+          - 6
+      - name: plaintext
+        in: query
+        description: When present, return one IP per line as text/plain instead of JSON.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: A blacklist response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlacklistResponse'
+            text/plain:
+              schema:
+                type: string
+                description: One IP address per line.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
+    BlacklistEntry:
+      type: object
+      properties:
+        ipAddress:
+          type: string
+        countryCode:
+          type: string
+          nullable: true
+        abuseConfidenceScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        lastReportedAt:
+          type: string
+          format: date-time
+    BlacklistResponse:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            generatedAt:
+              type: string
+              format: date-time
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlacklistEntry'
+  responses:
+    RateLimited:
+      description: Daily rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next allowed request.
+          schema:
+            type: integer
+        X-RateLimit-Limit:
+          description: Daily limit for this endpoint.
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Requests remaining in the current window.
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Epoch timestamp when the window resets.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnprocessableEntity:
+      description: Validation error in the request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
+      description: AbuseIPDB API key. Issue and rotate at https://www.abuseipdb.com/account/api.
+externalDocs:
+  description: Full AbuseIPDB APIv2 Documentation
+  url: https://docs.abuseipdb.com/

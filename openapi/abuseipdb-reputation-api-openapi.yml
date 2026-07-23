@@ -1,0 +1,279 @@
+openapi: 3.0.3
+info:
+  title: AbuseIPDB APIv2 Blacklist Reputation API
+  description: 'AbuseIPDB APIv2 is a REST API for querying IP reputation, downloading the
+
+    community blacklist, submitting single and bulk abuse reports, checking
+
+    CIDR network ranges, and clearing your own past reports. All requests are
+
+    authenticated with an API key supplied via the `Key` HTTP header and must
+
+    be made over HTTPS. Responses are returned as JSON unless otherwise noted.
+
+    '
+  version: 2.0.0
+  contact:
+    name: AbuseIPDB Support
+    url: https://www.abuseipdb.com/contact
+  license:
+    name: AbuseIPDB Terms of Service
+    url: https://www.abuseipdb.com/terms-of-service
+  termsOfService: https://www.abuseipdb.com/terms-of-service
+servers:
+- url: https://api.abuseipdb.com/api/v2
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Reputation
+  description: Endpoints for looking up the abuse data of an IP or CIDR network.
+paths:
+  /check:
+    get:
+      operationId: checkIp
+      tags:
+      - Reputation
+      summary: Check an IP Address
+      description: 'Returns the current abuse data for a single IPv4 or IPv6 address,
+
+        including the abuse confidence score, country, ISP, usage type, and
+
+        (when `verbose` is set) the most recent reports.
+
+        '
+      parameters:
+      - name: ipAddress
+        in: query
+        required: true
+        description: The IPv4 or IPv6 address to check.
+        schema:
+          type: string
+          format: ip
+      - name: maxAgeInDays
+        in: query
+        description: Restrict reports considered to those within the last N days (1-365, default 30).
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 365
+          default: 30
+      - name: verbose
+        in: query
+        description: When present, include the most recent reports in the response.
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Abuse data for the requested IP.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /check-block:
+    get:
+      operationId: checkBlock
+      tags:
+      - Reputation
+      summary: Check a CIDR Network Block
+      description: 'Returns the abuse data for a CIDR network range. Free accounts may query
+
+        ranges up to /24; subscriber tiers can query up to /16.
+
+        '
+      parameters:
+      - name: network
+        in: query
+        required: true
+        description: A CIDR network range (e.g. `192.0.2.0/24`).
+        schema:
+          type: string
+      - name: maxAgeInDays
+        in: query
+        description: Restrict to reports within the last N days (1-365, default 30).
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 365
+          default: 30
+      responses:
+        '200':
+          description: Abuse data for the network range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckBlockResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Report:
+      type: object
+      properties:
+        reportedAt:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        categories:
+          type: array
+          items:
+            type: integer
+        reporterId:
+          type: integer
+        reporterCountryCode:
+          type: string
+        reporterCountryName:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
+    CheckBlockResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            networkAddress:
+              type: string
+            netmask:
+              type: string
+            minAddress:
+              type: string
+            maxAddress:
+              type: string
+            numPossibleHosts:
+              type: integer
+            addressSpaceDesc:
+              type: string
+            reportedAddress:
+              type: array
+              items:
+                $ref: '#/components/schemas/IpRecord'
+    CheckResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IpRecord'
+    IpRecord:
+      type: object
+      properties:
+        ipAddress:
+          type: string
+        isPublic:
+          type: boolean
+        ipVersion:
+          type: integer
+          enum:
+          - 4
+          - 6
+        isWhitelisted:
+          type: boolean
+          nullable: true
+        abuseConfidenceScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        countryCode:
+          type: string
+          nullable: true
+        countryName:
+          type: string
+          nullable: true
+        usageType:
+          type: string
+          nullable: true
+        isp:
+          type: string
+          nullable: true
+        domain:
+          type: string
+          nullable: true
+        hostnames:
+          type: array
+          items:
+            type: string
+        isTor:
+          type: boolean
+        totalReports:
+          type: integer
+        numDistinctUsers:
+          type: integer
+        lastReportedAt:
+          type: string
+          format: date-time
+          nullable: true
+        reports:
+          type: array
+          description: Present only when `verbose` is true.
+          items:
+            $ref: '#/components/schemas/Report'
+  responses:
+    RateLimited:
+      description: Daily rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next allowed request.
+          schema:
+            type: integer
+        X-RateLimit-Limit:
+          description: Daily limit for this endpoint.
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Requests remaining in the current window.
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Epoch timestamp when the window resets.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnprocessableEntity:
+      description: Validation error in the request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
+      description: AbuseIPDB API key. Issue and rotate at https://www.abuseipdb.com/account/api.
+externalDocs:
+  description: Full AbuseIPDB APIv2 Documentation
+  url: https://docs.abuseipdb.com/

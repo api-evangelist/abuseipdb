@@ -1,0 +1,303 @@
+openapi: 3.0.3
+info:
+  title: AbuseIPDB APIv2 Blacklist Reports API
+  description: 'AbuseIPDB APIv2 is a REST API for querying IP reputation, downloading the
+
+    community blacklist, submitting single and bulk abuse reports, checking
+
+    CIDR network ranges, and clearing your own past reports. All requests are
+
+    authenticated with an API key supplied via the `Key` HTTP header and must
+
+    be made over HTTPS. Responses are returned as JSON unless otherwise noted.
+
+    '
+  version: 2.0.0
+  contact:
+    name: AbuseIPDB Support
+    url: https://www.abuseipdb.com/contact
+  license:
+    name: AbuseIPDB Terms of Service
+    url: https://www.abuseipdb.com/terms-of-service
+  termsOfService: https://www.abuseipdb.com/terms-of-service
+servers:
+- url: https://api.abuseipdb.com/api/v2
+  description: Production
+security:
+- ApiKeyAuth: []
+tags:
+- name: Reports
+  description: Endpoints for submitting and retrieving abuse reports.
+paths:
+  /reports:
+    get:
+      operationId: listReports
+      tags:
+      - Reports
+      summary: List Reports for an IP Address
+      description: Returns a paginated list of recent reports for a given IP address.
+      parameters:
+      - name: ipAddress
+        in: query
+        required: true
+        description: The IPv4 or IPv6 address whose reports should be returned.
+        schema:
+          type: string
+          format: ip
+      - name: maxAgeInDays
+        in: query
+        description: Restrict to reports within the last N days (1-365, default 30).
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 365
+          default: 30
+      - name: page
+        in: query
+        description: Page number to return (1-based).
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: perPage
+        in: query
+        description: Number of reports per page.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      responses:
+        '200':
+          description: A page of reports.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /report:
+    post:
+      operationId: reportIp
+      tags:
+      - Reports
+      summary: Report an Abusive IP Address
+      description: 'Submit a new abuse report for an IP address with one or more category
+
+        IDs, an optional comment, and an optional ISO 8601 timestamp.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReportRequest'
+      responses:
+        '200':
+          description: The report was accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /bulk-report:
+    post:
+      operationId: bulkReportIps
+      tags:
+      - Reports
+      summary: Bulk Report Abusive IP Addresses
+      description: Submit many abuse reports at once via a CSV multipart upload.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - csv
+              properties:
+                csv:
+                  type: string
+                  format: binary
+                  description: 'CSV file with columns: IP, Categories, ReportDate, Comment.
+
+                    '
+      responses:
+        '200':
+          description: Bulk report accepted; summary of saved/invalid entries returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkReportResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Report:
+      type: object
+      properties:
+        reportedAt:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        categories:
+          type: array
+          items:
+            type: integer
+        reporterId:
+          type: integer
+        reporterCountryCode:
+          type: string
+        reporterCountryName:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
+    ReportsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            total:
+              type: integer
+            page:
+              type: integer
+            count:
+              type: integer
+            perPage:
+              type: integer
+            lastPage:
+              type: integer
+            nextPageUrl:
+              type: string
+              nullable: true
+            previousPageUrl:
+              type: string
+              nullable: true
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Report'
+    BulkReportResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            savedReports:
+              type: integer
+            invalidReports:
+              type: array
+              items:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  input:
+                    type: string
+                  rowNumber:
+                    type: integer
+    ReportRequest:
+      type: object
+      required:
+      - ip
+      - categories
+      properties:
+        ip:
+          type: string
+          description: IPv4 or IPv6 address to report.
+        categories:
+          type: string
+          description: Comma-separated category IDs (up to 30).
+        comment:
+          type: string
+          description: Optional description and supporting log evidence.
+        timestamp:
+          type: string
+          format: date-time
+          description: Optional ISO 8601 timestamp when the abuse occurred.
+    ReportResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            ipAddress:
+              type: string
+            abuseConfidenceScore:
+              type: integer
+  responses:
+    RateLimited:
+      description: Daily rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next allowed request.
+          schema:
+            type: integer
+        X-RateLimit-Limit:
+          description: Daily limit for this endpoint.
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Requests remaining in the current window.
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Epoch timestamp when the window resets.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnprocessableEntity:
+      description: Validation error in the request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
+      description: AbuseIPDB API key. Issue and rotate at https://www.abuseipdb.com/account/api.
+externalDocs:
+  description: Full AbuseIPDB APIv2 Documentation
+  url: https://docs.abuseipdb.com/
