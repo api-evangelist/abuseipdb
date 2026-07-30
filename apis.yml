@@ -9,6 +9,19 @@ description: >-
 url: https://docs.abuseipdb.com/
 humanURL: https://www.abuseipdb.com/
 baseURL: https://api.abuseipdb.com/api/v2/
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://www.abuseipdb.com/img/abuseipdb-logo.svg
 specificationVersion: '0.20'
 type: Index
@@ -28,99 +41,246 @@ tags:
   - Public APIs
   - Threat Intelligence
 apis:
-  - aid: abuseipdb:apiv2
-    name: AbuseIPDB APIv2
-    description: >-
-      AbuseIPDB APIv2 is a REST API that exposes the AbuseIPDB community blacklist, IP report ingest, IP and CIDR
-      reputation lookups, and self-service report cleanup. Authentication is via an API key delivered in a `Key:` HTTP
-      header; responses are returned as JSON (or plaintext for the blacklist). The API is HTTPS only and enforces
-      per-endpoint daily rate limits that scale by subscription tier.
-    humanURL: https://docs.abuseipdb.com/
-    baseURL: https://api.abuseipdb.com/api/v2/
-    tags:
-      - Blacklist
-      - IP Reputation
-      - REST
-      - Threat Intelligence
-    properties:
-      - type: Documentation
-        url: https://docs.abuseipdb.com/
-      - type: APIReference
-        url: https://docs.abuseipdb.com/#check-endpoint
-        name: CHECK Endpoint
-        description: GET /check — look up the abuse data for a single IPv4 or IPv6 address, optionally with verbose recent reports.
-      - type: APIReference
-        url: https://docs.abuseipdb.com/#reports-endpoint
-        name: REPORTS Endpoint
-        description: GET /reports — retrieve a paginated list of recent reports for a given IP address.
-      - type: APIReference
-        url: https://docs.abuseipdb.com/#blacklist-endpoint
-        name: BLACKLIST Endpoint
-        description: >-
-          GET /blacklist — download the AbuseIPDB blacklist, with optional confidence, country, IP version, and limit
-          filters.
-      - type: APIReference
-        url: https://docs.abuseipdb.com/#report-endpoint
-        name: REPORT Endpoint
-        description: >-
-          POST /report — submit an abuse report for a single IP address with category IDs, optional comment and
-          timestamp.
-      - type: APIReference
-        url: https://docs.abuseipdb.com/#bulk-report-endpoint
-        name: BULK-REPORT Endpoint
-        description: POST /bulk-report — submit many IPs in a single CSV multipart upload.
-      - type: APIReference
-        url: https://docs.abuseipdb.com/#check-block-endpoint
-        name: CHECK-BLOCK Endpoint
-        description: >-
-          GET /check-block — query abuse data for a CIDR network range (subscriber tiers can query larger ranges up to
-          /16).
-      - type: APIReference
-        url: https://docs.abuseipdb.com/#clear-address-endpoint
-        name: CLEAR-ADDRESS Endpoint
-        description: DELETE /clear-address — remove your own past reports for a specific IP address.
-      - type: Authentication
-        url: https://docs.abuseipdb.com/#authentication
-        description: API key authentication. Pass the key in the `Key:` HTTP header (recommended) or as a `?key=` query parameter.
-      - type: RateLimits
-        url: https://docs.abuseipdb.com/#rate-limit-headers
-        description: >-
-          Per-endpoint daily quotas scaled by plan. 429 responses include `Retry-After`, `X-RateLimit-Limit`,
-          `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers.
-      - type: ErrorCodes
-        url: https://docs.abuseipdb.com/#error-handling
-        description: JSON API compliant error structure with HTTP status code as the primary error indicator.
-      - type: CodeExamples
-        url: https://docs.abuseipdb.com/#api-clients
-        description: Code samples in cURL, Python (requests), PHP (Guzzle), C# (RestSharp), and VBScript.
-      - type: OpenAPI
-        url: openapi/abuseipdb-apiv2-openapi.yml
-      - type: JSONSchema
-        url: json-schema/abuseipdb-check-response-schema.json
-      - type: JSONSchema
-        url: json-schema/abuseipdb-report-schema.json
-      - type: JSONSchema
-        url: json-schema/abuseipdb-blacklist-entry-schema.json
-      - type: JSONStructure
-        url: json-structure/abuseipdb-check-response-structure.json
-      - type: JSONStructure
-        url: json-structure/abuseipdb-report-structure.json
-      - type: JSONStructure
-        url: json-structure/abuseipdb-blacklist-entry-structure.json
-      - type: JSONLD
-        url: json-ld/abuseipdb-context.jsonld
-      - type: Examples
-        url: examples/abuseipdb-check-example.json
-      - type: Examples
-        url: examples/abuseipdb-report-example.json
-      - type: Examples
-        url: examples/abuseipdb-blacklist-example.json
-      - type: Examples
-        url: examples/abuseipdb-check-block-example.json
-      - type: Examples
-        url: examples/abuseipdb-reports-example.json
-      - type: Examples
-        url: examples/abuseipdb-bulk-report-example.json
+- aid: abuseipdb:abuseipdb-blacklist-api
+  name: AbuseIPDB Blacklist API
+  description: Endpoints for downloading the community blacklist.
+  humanURL: https://docs.abuseipdb.com/
+  baseURL: https://api.abuseipdb.com/api/v2/
+  tags:
+  - Blacklist
+  properties:
+  - type: OpenAPI
+    url: openapi/abuseipdb-blacklist-api-openapi.yml
+  - type: Documentation
+    url: https://docs.abuseipdb.com/
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#reports-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#blacklist-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#bulk-report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-block-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#clear-address-endpoint
+  - type: Authentication
+    url: https://docs.abuseipdb.com/#authentication
+  - type: RateLimits
+    url: https://docs.abuseipdb.com/#rate-limit-headers
+  - type: ErrorCodes
+    url: https://docs.abuseipdb.com/#error-handling
+  - type: CodeExamples
+    url: https://docs.abuseipdb.com/#api-clients
+  - type: JSONSchema
+    url: json-schema/abuseipdb-check-response-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-report-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-blacklist-entry-schema.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-check-response-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-report-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-blacklist-entry-structure.json
+  - type: JSONLD
+    url: json-ld/abuseipdb-context.jsonld
+  - type: Examples
+    url: examples/abuseipdb-check-example.json
+  - type: Examples
+    url: examples/abuseipdb-report-example.json
+  - type: Examples
+    url: examples/abuseipdb-blacklist-example.json
+  - type: Examples
+    url: examples/abuseipdb-check-block-example.json
+  - type: Examples
+    url: examples/abuseipdb-reports-example.json
+  - type: Examples
+    url: examples/abuseipdb-bulk-report-example.json
+- aid: abuseipdb:abuseipdb-management-api
+  name: AbuseIPDB Management API
+  description: Endpoints for managing your own reports.
+  humanURL: https://docs.abuseipdb.com/
+  baseURL: https://api.abuseipdb.com/api/v2/
+  tags:
+  - Management
+  properties:
+  - type: OpenAPI
+    url: openapi/abuseipdb-management-api-openapi.yml
+  - type: Documentation
+    url: https://docs.abuseipdb.com/
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#reports-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#blacklist-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#bulk-report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-block-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#clear-address-endpoint
+  - type: Authentication
+    url: https://docs.abuseipdb.com/#authentication
+  - type: RateLimits
+    url: https://docs.abuseipdb.com/#rate-limit-headers
+  - type: ErrorCodes
+    url: https://docs.abuseipdb.com/#error-handling
+  - type: CodeExamples
+    url: https://docs.abuseipdb.com/#api-clients
+  - type: JSONSchema
+    url: json-schema/abuseipdb-check-response-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-report-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-blacklist-entry-schema.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-check-response-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-report-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-blacklist-entry-structure.json
+  - type: JSONLD
+    url: json-ld/abuseipdb-context.jsonld
+  - type: Examples
+    url: examples/abuseipdb-check-example.json
+  - type: Examples
+    url: examples/abuseipdb-report-example.json
+  - type: Examples
+    url: examples/abuseipdb-blacklist-example.json
+  - type: Examples
+    url: examples/abuseipdb-check-block-example.json
+  - type: Examples
+    url: examples/abuseipdb-reports-example.json
+  - type: Examples
+    url: examples/abuseipdb-bulk-report-example.json
+- aid: abuseipdb:abuseipdb-reports-api
+  name: AbuseIPDB Reports API
+  description: Endpoints for submitting and retrieving abuse reports.
+  humanURL: https://docs.abuseipdb.com/
+  baseURL: https://api.abuseipdb.com/api/v2/
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/abuseipdb-reports-api-openapi.yml
+  - type: Documentation
+    url: https://docs.abuseipdb.com/
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#reports-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#blacklist-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#bulk-report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-block-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#clear-address-endpoint
+  - type: Authentication
+    url: https://docs.abuseipdb.com/#authentication
+  - type: RateLimits
+    url: https://docs.abuseipdb.com/#rate-limit-headers
+  - type: ErrorCodes
+    url: https://docs.abuseipdb.com/#error-handling
+  - type: CodeExamples
+    url: https://docs.abuseipdb.com/#api-clients
+  - type: JSONSchema
+    url: json-schema/abuseipdb-check-response-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-report-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-blacklist-entry-schema.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-check-response-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-report-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-blacklist-entry-structure.json
+  - type: JSONLD
+    url: json-ld/abuseipdb-context.jsonld
+  - type: Examples
+    url: examples/abuseipdb-check-example.json
+  - type: Examples
+    url: examples/abuseipdb-report-example.json
+  - type: Examples
+    url: examples/abuseipdb-blacklist-example.json
+  - type: Examples
+    url: examples/abuseipdb-check-block-example.json
+  - type: Examples
+    url: examples/abuseipdb-reports-example.json
+  - type: Examples
+    url: examples/abuseipdb-bulk-report-example.json
+- aid: abuseipdb:abuseipdb-reputation-api
+  name: AbuseIPDB Reputation API
+  description: Endpoints for looking up the abuse data of an IP or CIDR network.
+  humanURL: https://docs.abuseipdb.com/
+  baseURL: https://api.abuseipdb.com/api/v2/
+  tags:
+  - Reputation
+  properties:
+  - type: OpenAPI
+    url: openapi/abuseipdb-reputation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.abuseipdb.com/
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#reports-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#blacklist-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#bulk-report-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#check-block-endpoint
+  - type: APIReference
+    url: https://docs.abuseipdb.com/#clear-address-endpoint
+  - type: Authentication
+    url: https://docs.abuseipdb.com/#authentication
+  - type: RateLimits
+    url: https://docs.abuseipdb.com/#rate-limit-headers
+  - type: ErrorCodes
+    url: https://docs.abuseipdb.com/#error-handling
+  - type: CodeExamples
+    url: https://docs.abuseipdb.com/#api-clients
+  - type: JSONSchema
+    url: json-schema/abuseipdb-check-response-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-report-schema.json
+  - type: JSONSchema
+    url: json-schema/abuseipdb-blacklist-entry-schema.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-check-response-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-report-structure.json
+  - type: JSONStructure
+    url: json-structure/abuseipdb-blacklist-entry-structure.json
+  - type: JSONLD
+    url: json-ld/abuseipdb-context.jsonld
+  - type: Examples
+    url: examples/abuseipdb-check-example.json
+  - type: Examples
+    url: examples/abuseipdb-report-example.json
+  - type: Examples
+    url: examples/abuseipdb-blacklist-example.json
+  - type: Examples
+    url: examples/abuseipdb-check-block-example.json
+  - type: Examples
+    url: examples/abuseipdb-reports-example.json
+  - type: Examples
+    url: examples/abuseipdb-bulk-report-example.json
 common:
   - type: AgenticAccess
     url: agentic-access/abuseipdb-agentic-access.yml
