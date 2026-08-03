@@ -1,0 +1,20 @@
+{
+  "provider": "abuseipdb",
+  "sources": [
+    "abuseipdb-blacklist-api-openapi.yml",
+    "abuseipdb-management-api-openapi.yml",
+    "abuseipdb-reports-api-openapi.yml",
+    "abuseipdb-reputation-api-openapi.yml"
+  ],
+  "outputs": [
+    "abuseipdb-blacklist-api-openapi.yml",
+    "abuseipdb-management-api-openapi.yml",
+    "abuseipdb-reports-api-openapi.yml",
+    "abuseipdb-reputation-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
