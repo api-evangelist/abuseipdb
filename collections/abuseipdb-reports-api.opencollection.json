@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AbuseIPDB APIv2 Blacklist Reports API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Key",
+      "value": "{{Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Reports for an IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/reports",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "query",
+                "description": "The IPv4 or IPv6 address whose reports should be returned."
+              },
+              {
+                "name": "maxAgeInDays",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to reports within the last N days (1-365, default 30)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to return (1-based)."
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of reports per page."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of recent reports for a given IP address."
+        },
+        {
+          "info": {
+            "name": "Report an Abusive IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.abuseipdb.com/api/v2/report",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Submit a new abuse report for an IP address with one or more category\nIDs, an optional comment, and an optional ISO 8601 timestamp.\n"
+        },
+        {
+          "info": {
+            "name": "Bulk Report Abusive IP Addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.abuseipdb.com/api/v2/bulk-report",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "csv",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Submit many abuse reports at once via a CSV multipart upload."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

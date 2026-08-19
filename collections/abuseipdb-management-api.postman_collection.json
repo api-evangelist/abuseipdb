@@ -1,0 +1,307 @@
+{
+  "item": [
+    {
+      "id": "1c7202f2-594a-4af1-bfe2-17718e28ceed",
+      "name": "Management",
+      "description": {
+        "content": "Endpoints for managing your own reports.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9487fe45-a03e-497c-a36f-d9c7c4f6f751",
+          "name": "Clear Your Reports for an IP Address",
+          "request": {
+            "name": "Clear Your Reports for an IP Address",
+            "description": {
+              "content": "Remove all of your own past reports for the given IP address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "clear-address"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ipAddress",
+                  "value": "<ip>",
+                  "description": "(Required) The IPv4 or IPv6 address whose reports (filed by your account) should be cleared."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "61bd3b5a-cff2-4f4e-8aa3-c37d45c8fa1f",
+              "name": "Reports cleared successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"numReportsDeleted\": 8359\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f1d810f-cb8c-498d-ba3b-d2440231908e",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 3390,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 8515,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3934f3e1-e0fb-4590-b83a-096b17d4f721",
+              "name": "Validation error in the request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 7828,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 542,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7da4a573-c3a1-42a2-99af-294382799a1a",
+              "name": "Daily rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "clear-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ipAddress",
+                      "value": "<ip>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds until the next allowed request.",
+                  "key": "Retry-After",
+                  "value": "7067"
+                },
+                {
+                  "disabled": false,
+                  "description": "Daily limit for this endpoint.",
+                  "key": "X-RateLimit-Limit",
+                  "value": "7067"
+                },
+                {
+                  "disabled": false,
+                  "description": "Requests remaining in the current window.",
+                  "key": "X-RateLimit-Remaining",
+                  "value": "7067"
+                },
+                {
+                  "disabled": false,
+                  "description": "Epoch timestamp when the window resets.",
+                  "key": "X-RateLimit-Reset",
+                  "value": "7067"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"detail\": \"string\",\n      \"status\": 7828,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"detail\": \"string\",\n      \"status\": 542,\n      \"source\": {\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.abuseipdb.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7f84ac37-cf80-451d-9e78-6659735eec84",
+    "name": "AbuseIPDB APIv2 Blacklist Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "AbuseIPDB APIv2 is a REST API for querying IP reputation, downloading the\ncommunity blacklist, submitting single and bulk abuse reports, checking\nCIDR network ranges, and clearing your own past reports. All requests are\nauthenticated with an API key supplied via the `Key` HTTP header and must\nbe made over HTTPS. Responses are returned as JSON unless otherwise noted.\n\n\nContact Support:\n Name: AbuseIPDB Support",
+      "type": "text/plain"
+    }
+  }
+}

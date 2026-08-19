@@ -1,0 +1,75 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AbuseIPDB APIv2 Blacklist API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Key",
+      "value": "{{Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Blacklist",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Download the AbuseIPDB Blacklist",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/blacklist",
+            "params": [
+              {
+                "name": "confidenceMinimum",
+                "value": "",
+                "type": "query",
+                "description": "Minimum confidence score (25-100, default 100; subscriber feature below 100)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entries to return (varies by plan, up to 500,000)."
+              },
+              {
+                "name": "onlyCountries",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated ISO 3166-1 alpha-2 country codes to include (subscriber feature)."
+              },
+              {
+                "name": "exceptCountries",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated ISO 3166-1 alpha-2 country codes to exclude (subscriber feature)."
+              },
+              {
+                "name": "ipVersion",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to a specific IP version (4 or 6)."
+              },
+              {
+                "name": "plaintext",
+                "value": "",
+                "type": "query",
+                "description": "When present, return one IP per line as text/plain instead of JSON."
+              }
+            ]
+          },
+          "docs": "Returns the AbuseIPDB blacklist. Free accounts receive up to 10,000\nentries; subscriber tiers can customise the confidence floor, country\nfilters, IP version, and maximum result count.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

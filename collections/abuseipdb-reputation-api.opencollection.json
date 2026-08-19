@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AbuseIPDB APIv2 Blacklist Reputation API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Key",
+      "value": "{{Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reputation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check an IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/check",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "query",
+                "description": "The IPv4 or IPv6 address to check."
+              },
+              {
+                "name": "maxAgeInDays",
+                "value": "",
+                "type": "query",
+                "description": "Restrict reports considered to those within the last N days (1-365, default 30)."
+              },
+              {
+                "name": "verbose",
+                "value": "",
+                "type": "query",
+                "description": "When present, include the most recent reports in the response."
+              }
+            ]
+          },
+          "docs": "Returns the current abuse data for a single IPv4 or IPv6 address,\nincluding the abuse confidence score, country, ISP, usage type, and\n(when `verbose` is set) the most recent reports.\n"
+        },
+        {
+          "info": {
+            "name": "Check a CIDR Network Block",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.abuseipdb.com/api/v2/check-block",
+            "params": [
+              {
+                "name": "network",
+                "value": "",
+                "type": "query",
+                "description": "A CIDR network range (e.g. `192.0.2.0/24`)."
+              },
+              {
+                "name": "maxAgeInDays",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to reports within the last N days (1-365, default 30)."
+              }
+            ]
+          },
+          "docs": "Returns the abuse data for a CIDR network range. Free accounts may query\nranges up to /24; subscriber tiers can query up to /16.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

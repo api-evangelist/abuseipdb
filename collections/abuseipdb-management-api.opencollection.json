@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AbuseIPDB APIv2 Blacklist Management API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Key",
+      "value": "{{Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Clear Your Reports for an IP Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.abuseipdb.com/api/v2/clear-address",
+            "params": [
+              {
+                "name": "ipAddress",
+                "value": "",
+                "type": "query",
+                "description": "The IPv4 or IPv6 address whose reports (filed by your account) should be cleared."
+              }
+            ]
+          },
+          "docs": "Remove all of your own past reports for the given IP address."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
