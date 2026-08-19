@@ -23,7 +23,7 @@ accessModel:
   generated: '2026-07-22'
   method: derived
 image: https://www.abuseipdb.com/img/abuseipdb-logo.svg
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 type: Index
 access: 3rd-Party
 created: '2026-05-28'
