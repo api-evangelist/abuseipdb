@@ -12,8 +12,8 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: abuseipdbApi
-  url: ../openapi/abuseipdb-apiv2-openapi.yml
+- name: reputationApi
+  url: ../openapi/abuseipdb-reputation-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: block-scan-and-check

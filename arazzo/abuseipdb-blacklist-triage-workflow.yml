@@ -11,8 +11,11 @@ info:
     without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: abuseipdbApi
-  url: ../openapi/abuseipdb-apiv2-openapi.yml
+- name: blacklistApi
+  url: ../openapi/abuseipdb-blacklist-api-openapi.yml
+  type: openapi
+- name: reputationApi
+  url: ../openapi/abuseipdb-reputation-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: blacklist-triage
