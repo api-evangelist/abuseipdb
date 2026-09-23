@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: AbuseIPDB APIv2 Blacklist Reputation API
+  title: AbuseIPDB APIv2 Reputation API
   description: 'AbuseIPDB APIv2 is a REST API for querying IP reputation, downloading the
 
     community blacklist, submitting single and bulk abuse reports, checking
@@ -9,9 +9,7 @@ info:
 
     authenticated with an API key supplied via the `Key` HTTP header and must
 
-    be made over HTTPS. Responses are returned as JSON unless otherwise noted.
-
-    '
+    be made over HTTPS. Responses are returned as JSON unless otherwise noted.'
   version: 2.0.0
   contact:
     name: AbuseIPDB Support
@@ -39,9 +37,7 @@ paths:
 
         including the abuse confidence score, country, ISP, usage type, and
 
-        (when `verbose` is set) the most recent reports.
-
-        '
+        (when `verbose` is set) the most recent reports.'
       parameters:
       - name: ipAddress
         in: query
@@ -84,9 +80,7 @@ paths:
       summary: Check a CIDR Network Block
       description: 'Returns the abuse data for a CIDR network range. Free accounts may query
 
-        ranges up to /24; subscriber tiers can query up to /16.
-
-        '
+        ranges up to /24; subscriber tiers can query up to /16.'
       parameters:
       - name: network
         in: query
@@ -116,123 +110,13 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  schemas:
-    Report:
-      type: object
-      properties:
-        reportedAt:
-          type: string
-          format: date-time
-        comment:
-          type: string
-        categories:
-          type: array
-          items:
-            type: integer
-        reporterId:
-          type: integer
-        reporterCountryCode:
-          type: string
-        reporterCountryName:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              detail:
-                type: string
-              status:
-                type: integer
-              source:
-                type: object
-                properties:
-                  parameter:
-                    type: string
-    CheckBlockResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            networkAddress:
-              type: string
-            netmask:
-              type: string
-            minAddress:
-              type: string
-            maxAddress:
-              type: string
-            numPossibleHosts:
-              type: integer
-            addressSpaceDesc:
-              type: string
-            reportedAddress:
-              type: array
-              items:
-                $ref: '#/components/schemas/IpRecord'
-    CheckResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/IpRecord'
-    IpRecord:
-      type: object
-      properties:
-        ipAddress:
-          type: string
-        isPublic:
-          type: boolean
-        ipVersion:
-          type: integer
-          enum:
-          - 4
-          - 6
-        isWhitelisted:
-          type: boolean
-          nullable: true
-        abuseConfidenceScore:
-          type: integer
-          minimum: 0
-          maximum: 100
-        countryCode:
-          type: string
-          nullable: true
-        countryName:
-          type: string
-          nullable: true
-        usageType:
-          type: string
-          nullable: true
-        isp:
-          type: string
-          nullable: true
-        domain:
-          type: string
-          nullable: true
-        hostnames:
-          type: array
-          items:
-            type: string
-        isTor:
-          type: boolean
-        totalReports:
-          type: integer
-        numDistinctUsers:
-          type: integer
-        lastReportedAt:
-          type: string
-          format: date-time
-          nullable: true
-        reports:
-          type: array
-          description: Present only when `verbose` is true.
-          items:
-            $ref: '#/components/schemas/Report'
   responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     RateLimited:
       description: Daily rate limit exceeded.
       headers:
@@ -262,12 +146,129 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    CheckBlockResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            networkAddress:
+              type: string
+            netmask:
+              type: string
+            minAddress:
+              type: string
+            maxAddress:
+              type: string
+            numPossibleHosts:
+              type: integer
+            addressSpaceDesc:
+              type: string
+            reportedAddress:
+              type: array
+              items:
+                $ref: '#/components/schemas/IpRecord'
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
+    IpRecord:
+      type: object
+      properties:
+        ipAddress:
+          type: string
+        isPublic:
+          type: boolean
+        ipVersion:
+          type: integer
+          enum:
+          - 4
+          - 6
+        isWhitelisted:
+          type:
+          - boolean
+          - 'null'
+        abuseConfidenceScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        countryCode:
+          type:
+          - string
+          - 'null'
+        countryName:
+          type:
+          - string
+          - 'null'
+        usageType:
+          type:
+          - string
+          - 'null'
+        isp:
+          type:
+          - string
+          - 'null'
+        domain:
+          type:
+          - string
+          - 'null'
+        hostnames:
+          type: array
+          items:
+            type: string
+        isTor:
+          type: boolean
+        totalReports:
+          type: integer
+        numDistinctUsers:
+          type: integer
+        lastReportedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        reports:
+          type: array
+          description: Present only when `verbose` is true.
+          items:
+            $ref: '#/components/schemas/Report'
+    CheckResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IpRecord'
+    Report:
+      type: object
+      properties:
+        reportedAt:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        categories:
+          type: array
+          items:
+            type: integer
+        reporterId:
+          type: integer
+        reporterCountryCode:
+          type: string
+        reporterCountryName:
+          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: AbuseIPDB APIv2 Blacklist Reports API
+  title: AbuseIPDB APIv2 Reports API
   description: 'AbuseIPDB APIv2 is a REST API for querying IP reputation, downloading the
 
     community blacklist, submitting single and bulk abuse reports, checking
@@ -9,9 +9,7 @@ info:
 
     authenticated with an API key supplied via the `Key` HTTP header and must
 
-    be made over HTTPS. Responses are returned as JSON unless otherwise noted.
-
-    '
+    be made over HTTPS. Responses are returned as JSON unless otherwise noted.'
   version: 2.0.0
   contact:
     name: AbuseIPDB Support
@@ -88,9 +86,7 @@ paths:
       summary: Report an Abusive IP Address
       description: 'Submit a new abuse report for an IP address with one or more category
 
-        IDs, an optional comment, and an optional ISO 8601 timestamp.
-
-        '
+        IDs, an optional comment, and an optional ISO 8601 timestamp.'
       requestBody:
         required: true
         content:
@@ -147,67 +143,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Report:
-      type: object
-      properties:
-        reportedAt:
-          type: string
-          format: date-time
-        comment:
-          type: string
-        categories:
-          type: array
-          items:
-            type: integer
-        reporterId:
-          type: integer
-        reporterCountryCode:
-          type: string
-        reporterCountryName:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              detail:
-                type: string
-              status:
-                type: integer
-              source:
-                type: object
-                properties:
-                  parameter:
-                    type: string
-    ReportsResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            total:
-              type: integer
-            page:
-              type: integer
-            count:
-              type: integer
-            perPage:
-              type: integer
-            lastPage:
-              type: integer
-            nextPageUrl:
-              type: string
-              nullable: true
-            previousPageUrl:
-              type: string
-              nullable: true
-            results:
-              type: array
-              items:
-                $ref: '#/components/schemas/Report'
     BulkReportResponse:
       type: object
       properties:
@@ -227,6 +162,79 @@ components:
                     type: string
                   rowNumber:
                     type: integer
+    ReportsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            total:
+              type: integer
+            page:
+              type: integer
+            count:
+              type: integer
+            perPage:
+              type: integer
+            lastPage:
+              type: integer
+            nextPageUrl:
+              type:
+              - string
+              - 'null'
+            previousPageUrl:
+              type:
+              - string
+              - 'null'
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Report'
+    ReportResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            ipAddress:
+              type: string
+            abuseConfidenceScore:
+              type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
+    Report:
+      type: object
+      properties:
+        reportedAt:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        categories:
+          type: array
+          items:
+            type: integer
+        reporterId:
+          type: integer
+        reporterCountryCode:
+          type: string
+        reporterCountryName:
+          type: string
     ReportRequest:
       type: object
       required:
@@ -246,17 +254,13 @@ components:
           type: string
           format: date-time
           description: Optional ISO 8601 timestamp when the abuse occurred.
-    ReportResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            ipAddress:
-              type: string
-            abuseConfidenceScore:
-              type: integer
   responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     RateLimited:
       description: Daily rate limit exceeded.
       headers:
@@ -282,12 +286,6 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     UnprocessableEntity:
       description: Validation error in the request parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key.
       content:
         application/json:
           schema:

@@ -1,10 +1,7 @@
 {
   "provider": "abuseipdb",
   "sources": [
-    "abuseipdb-blacklist-api-openapi.yml",
-    "abuseipdb-management-api-openapi.yml",
-    "abuseipdb-reports-api-openapi.yml",
-    "abuseipdb-reputation-api-openapi.yml"
+    "_original/abuseipdb-apiv2-openapi.yml"
   ],
   "outputs": [
     "abuseipdb-blacklist-api-openapi.yml",
@@ -15,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "abuseipdb-apiv2-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "abuseipdb-blacklist-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "abuseipdb-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "abuseipdb-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "abuseipdb-reputation-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
