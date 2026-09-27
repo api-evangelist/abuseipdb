@@ -143,25 +143,23 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    BulkReportResponse:
+    ErrorResponse:
       type: object
       properties:
-        data:
-          type: object
-          properties:
-            savedReports:
-              type: integer
-            invalidReports:
-              type: array
-              items:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
                 type: object
                 properties:
-                  error:
+                  parameter:
                     type: string
-                  input:
-                    type: string
-                  rowNumber:
-                    type: integer
     ReportsResponse:
       type: object
       properties:
@@ -200,41 +198,6 @@ components:
               type: string
             abuseConfidenceScore:
               type: integer
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              detail:
-                type: string
-              status:
-                type: integer
-              source:
-                type: object
-                properties:
-                  parameter:
-                    type: string
-    Report:
-      type: object
-      properties:
-        reportedAt:
-          type: string
-          format: date-time
-        comment:
-          type: string
-        categories:
-          type: array
-          items:
-            type: integer
-        reporterId:
-          type: integer
-        reporterCountryCode:
-          type: string
-        reporterCountryName:
-          type: string
     ReportRequest:
       type: object
       required:
@@ -254,13 +217,44 @@ components:
           type: string
           format: date-time
           description: Optional ISO 8601 timestamp when the abuse occurred.
+    Report:
+      type: object
+      properties:
+        reportedAt:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        categories:
+          type: array
+          items:
+            type: integer
+        reporterId:
+          type: integer
+        reporterCountryCode:
+          type: string
+        reporterCountryName:
+          type: string
+    BulkReportResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            savedReports:
+              type: integer
+            invalidReports:
+              type: array
+              items:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  input:
+                    type: string
+                  rowNumber:
+                    type: integer
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     RateLimited:
       description: Daily rate limit exceeded.
       headers:
@@ -286,6 +280,12 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     UnprocessableEntity:
       description: Validation error in the request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
