@@ -110,24 +110,43 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    RateLimited:
+      description: Daily rate limit exceeded.
+      headers:
+        Retry-After:
+          description: Seconds until the next allowed request.
+          schema:
+            type: integer
+        X-RateLimit-Limit:
+          description: Daily limit for this endpoint.
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Requests remaining in the current window.
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          description: Epoch timestamp when the window resets.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    UnprocessableEntity:
+      description: Validation error in the request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              detail:
-                type: string
-              status:
-                type: integer
-              source:
-                type: object
-                properties:
-                  parameter:
-                    type: string
     Report:
       type: object
       properties:
@@ -211,6 +230,23 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/IpRecord'
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
     CheckBlockResponse:
       type: object
       properties:
@@ -233,42 +269,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/IpRecord'
-  responses:
-    UnprocessableEntity:
-      description: Validation error in the request parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Daily rate limit exceeded.
-      headers:
-        Retry-After:
-          description: Seconds until the next allowed request.
-          schema:
-            type: integer
-        X-RateLimit-Limit:
-          description: Daily limit for this endpoint.
-          schema:
-            type: integer
-        X-RateLimit-Remaining:
-          description: Requests remaining in the current window.
-          schema:
-            type: integer
-        X-RateLimit-Reset:
-          description: Epoch timestamp when the window resets.
-          schema:
-            type: integer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

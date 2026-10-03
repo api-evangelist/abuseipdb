@@ -57,6 +57,14 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
+    ClearAddressResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            numReportsDeleted:
+              type: integer
     ErrorResponse:
       type: object
       properties:
@@ -74,14 +82,6 @@ components:
                 properties:
                   parameter:
                     type: string
-    ClearAddressResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            numReportsDeleted:
-              type: integer
   responses:
     RateLimited:
       description: Daily rate limit exceeded.
@@ -106,14 +106,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    UnprocessableEntity:
-      description: Validation error in the request parameters.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key.
+    UnprocessableEntity:
+      description: Validation error in the request parameters.
       content:
         application/json:
           schema:
