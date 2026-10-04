@@ -303,6 +303,9 @@ apis:
   - type: Examples
     url: examples/abuseipdb-bulk-report-example.json
 common:
+  - type: CapabilityMap
+    url: capabilities/abuseipdb-capability-edges.yml
+    name: AbuseIPDB Business Capability Map
   - type: AgenticAccess
     url: agentic-access/abuseipdb-agentic-access.yml
   - type: DomainSecurity
