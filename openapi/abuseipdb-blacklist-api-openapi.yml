@@ -95,53 +95,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  schemas:
-    BlacklistResponse:
-      type: object
-      properties:
-        meta:
-          type: object
-          properties:
-            generatedAt:
-              type: string
-              format: date-time
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlacklistEntry'
-    BlacklistEntry:
-      type: object
-      properties:
-        ipAddress:
-          type: string
-        countryCode:
-          type:
-          - string
-          - 'null'
-        abuseConfidenceScore:
-          type: integer
-          minimum: 0
-          maximum: 100
-        lastReportedAt:
-          type: string
-          format: date-time
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              detail:
-                type: string
-              status:
-                type: integer
-              source:
-                type: object
-                properties:
-                  parameter:
-                    type: string
   responses:
     RateLimited:
       description: Daily rate limit exceeded.
@@ -178,6 +131,53 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
+    BlacklistResponse:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            generatedAt:
+              type: string
+              format: date-time
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlacklistEntry'
+    BlacklistEntry:
+      type: object
+      properties:
+        ipAddress:
+          type: string
+        countryCode:
+          type:
+          - string
+          - 'null'
+        abuseConfidenceScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        lastReportedAt:
+          type: string
+          format: date-time
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

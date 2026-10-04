@@ -147,6 +147,28 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    CheckResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IpRecord'
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
     Report:
       type: object
       properties:
@@ -225,28 +247,6 @@ components:
           description: Present only when `verbose` is true.
           items:
             $ref: '#/components/schemas/Report'
-    CheckResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/IpRecord'
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              detail:
-                type: string
-              status:
-                type: integer
-              source:
-                type: object
-                properties:
-                  parameter:
-                    type: string
     CheckBlockResponse:
       type: object
       properties:

@@ -179,6 +179,41 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: string
+              status:
+                type: integer
+              source:
+                type: object
+                properties:
+                  parameter:
+                    type: string
+    Report:
+      type: object
+      properties:
+        reportedAt:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        categories:
+          type: array
+          items:
+            type: integer
+        reporterId:
+          type: integer
+        reporterCountryCode:
+          type: string
+        reporterCountryName:
+          type: string
     BulkReportResponse:
       type: object
       properties:
@@ -198,24 +233,35 @@ components:
                     type: string
                   rowNumber:
                     type: integer
-    Report:
+    ReportRequest:
       type: object
+      required:
+      - ip
+      - categories
       properties:
-        reportedAt:
+        ip:
           type: string
-          format: date-time
+          description: IPv4 or IPv6 address to report.
+        categories:
+          type: string
+          description: Comma-separated category IDs (up to 30).
         comment:
           type: string
-        categories:
-          type: array
-          items:
-            type: integer
-        reporterId:
-          type: integer
-        reporterCountryCode:
+          description: Optional description and supporting log evidence.
+        timestamp:
           type: string
-        reporterCountryName:
-          type: string
+          format: date-time
+          description: Optional ISO 8601 timestamp when the abuse occurred.
+    ReportResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            ipAddress:
+              type: string
+            abuseConfidenceScore:
+              type: integer
     ReportsResponse:
       type: object
       properties:
@@ -244,52 +290,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Report'
-    ReportResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            ipAddress:
-              type: string
-            abuseConfidenceScore:
-              type: integer
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              detail:
-                type: string
-              status:
-                type: integer
-              source:
-                type: object
-                properties:
-                  parameter:
-                    type: string
-    ReportRequest:
-      type: object
-      required:
-      - ip
-      - categories
-      properties:
-        ip:
-          type: string
-          description: IPv4 or IPv6 address to report.
-        categories:
-          type: string
-          description: Comma-separated category IDs (up to 30).
-        comment:
-          type: string
-          description: Optional description and supporting log evidence.
-        timestamp:
-          type: string
-          format: date-time
-          description: Optional ISO 8601 timestamp when the abuse occurred.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
