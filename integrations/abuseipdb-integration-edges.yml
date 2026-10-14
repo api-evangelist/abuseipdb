@@ -1,0 +1,24 @@
+generated: '2026-10-14'
+method: searched
+checked:
+- splunk/integrations/splunk-integration-edges.yml
+source:
+- splunk/integrations/splunk-integration-edges.yml
+edges:
+- partner_name: Splunk (own)
+  partner: splunk
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://splunkbase.splunk.com/app/7040/
+  mirror_of: splunk/integrations/splunk-integration-edges.yml
+  apps:
+  - AbuseIPDB App
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: app
