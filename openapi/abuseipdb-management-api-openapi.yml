@@ -93,14 +93,6 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ClearAddressResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            numReportsDeleted:
-              type: integer
     ErrorResponse:
       type: object
       properties:
@@ -118,6 +110,14 @@ components:
                 properties:
                   parameter:
                     type: string
+    ClearAddressResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            numReportsDeleted:
+              type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

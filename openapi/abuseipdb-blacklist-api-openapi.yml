@@ -132,6 +132,22 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    BlacklistEntry:
+      type: object
+      properties:
+        ipAddress:
+          type: string
+        countryCode:
+          type:
+          - string
+          - 'null'
+        abuseConfidenceScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        lastReportedAt:
+          type: string
+          format: date-time
     ErrorResponse:
       type: object
       properties:
@@ -162,22 +178,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BlacklistEntry'
-    BlacklistEntry:
-      type: object
-      properties:
-        ipAddress:
-          type: string
-        countryCode:
-          type:
-          - string
-          - 'null'
-        abuseConfidenceScore:
-          type: integer
-          minimum: 0
-          maximum: 100
-        lastReportedAt:
-          type: string
-          format: date-time
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

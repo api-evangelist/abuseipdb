@@ -147,11 +147,28 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    CheckResponse:
+    CheckBlockResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/IpRecord'
+          type: object
+          properties:
+            networkAddress:
+              type: string
+            netmask:
+              type: string
+            minAddress:
+              type: string
+            maxAddress:
+              type: string
+            numPossibleHosts:
+              type: integer
+            addressSpaceDesc:
+              type: string
+            reportedAddress:
+              type: array
+              items:
+                $ref: '#/components/schemas/IpRecord'
     ErrorResponse:
       type: object
       properties:
@@ -187,6 +204,11 @@ components:
           type: string
         reporterCountryName:
           type: string
+    CheckResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IpRecord'
     IpRecord:
       type: object
       properties:
@@ -247,28 +269,6 @@ components:
           description: Present only when `verbose` is true.
           items:
             $ref: '#/components/schemas/Report'
-    CheckBlockResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            networkAddress:
-              type: string
-            netmask:
-              type: string
-            minAddress:
-              type: string
-            maxAddress:
-              type: string
-            numPossibleHosts:
-              type: integer
-            addressSpaceDesc:
-              type: string
-            reportedAddress:
-              type: array
-              items:
-                $ref: '#/components/schemas/IpRecord'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
