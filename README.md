@@ -1,4 +1,4 @@
-# AbuseIPDB (abuseipdb)
+# AbuseIPDB
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,109 +66,185 @@
 
 AbuseIPDB is a community-driven project to help system administrators, webmasters, and security analysts check the reputation of IP addresses and report malicious activity. The free APIv2 surface lets developers query a single IP, check a CIDR block, retrieve paginated reports, download a curated blacklist, submit single or bulk abuse reports, and clear their own past reports for an address. AbuseIPDB underpins fail2ban, UFW, Cloudflare WAF, Wazuh, Splunk SOAR, and dozens of other firewall and SIEM integrations across the security community.
 
-**APIs.json:** [https://docs.abuseipdb.com/](https://docs.abuseipdb.com/)
+**Areas:** Anti Malware · Blacklist · Cybersecurity · IP Reputation · Network Security · Public APIs · Threat Intelligence
 
-## Scope
+## AbuseIPDB on APIs.io
 
-- **Type:** Index
-- **Access:** 3rd-Party
+Everything profiled for AbuseIPDB is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/abuseipdb/](https://apis.io/providers/abuseipdb/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (4)
 
-- Anti Malware
-- Blacklist
-- Cyber Security
-- IP Reputation
-- Network Security
-- Public APIs
-- Threat Intelligence
+- [AbuseIPDB Blacklist API](https://apis.io/apis/abuseipdb/abuseipdb-blacklist-api/) — Endpoints for downloading the community blacklist.
+- [AbuseIPDB Management API](https://apis.io/apis/abuseipdb/abuseipdb-management-api/) — Endpoints for managing your own reports.
+- [AbuseIPDB Reports API](https://apis.io/apis/abuseipdb/abuseipdb-reports-api/) — Endpoints for submitting and retrieving abuse reports.
+- [AbuseIPDB Reputation API](https://apis.io/apis/abuseipdb/abuseipdb-reputation-api/) — Endpoints for looking up the abuse data of an IP or CIDR network.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-28
-- **Modified:** 2026-05-30
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Arazzo workflows (7)
 
-### AbuseIPDB APIv2
+Multi-step workflows that chain operations into a business task.
 
-AbuseIPDB APIv2 is a REST API that exposes the AbuseIPDB community blacklist, IP report ingest, IP and CIDR reputation lookups, and self-service report cleanup. Authentication is via an API key delivered in a `Key:` HTTP header; responses are returned as JSON (or plaintext for the blacklist). The API is HTTPS only and enforces per-endpoint daily rate limits that scale by subscription tier.
+- [AbuseIPDB Blacklist Triage](https://apis.io/arazzos/abuseipdb/abuseipdb-blacklist-triage-workflow/)
+- [AbuseIPDB Block Scan And Check](https://apis.io/arazzos/abuseipdb/abuseipdb-block-scan-and-check-workflow/)
+- [AbuseIPDB Bulk Report Then Verify](https://apis.io/arazzos/abuseipdb/abuseipdb-bulk-report-then-verify-workflow/)
+- [AbuseIPDB Check Then Report](https://apis.io/arazzos/abuseipdb/abuseipdb-check-then-report-workflow/)
+- [AbuseIPDB Clear False Positive](https://apis.io/arazzos/abuseipdb/abuseipdb-clear-false-positive-workflow/)
+- [AbuseIPDB Investigate IP](https://apis.io/arazzos/abuseipdb/abuseipdb-investigate-ip-workflow/)
+- [AbuseIPDB Report Then Verify](https://apis.io/arazzos/abuseipdb/abuseipdb-report-then-verify-workflow/)
 
-- **Human URL:** [https://docs.abuseipdb.com/](https://docs.abuseipdb.com/)
-- **Base URL:** `https://api.abuseipdb.com/api/v2/`
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- Blacklist
-- IP Reputation
-- REST
-- Threat Intelligence
+- [Abuseipdb Agentic Access](https://apis.io/agentic-access/abuseipdb/abuseipdb-agentic-access/)
 
-#### Properties
+#### JSON Schema (3)
 
-- [Documentation](https://docs.abuseipdb.com/)
-- [API Reference](https://docs.abuseipdb.com/#check-endpoint)
-- [API Reference](https://docs.abuseipdb.com/#reports-endpoint)
-- [API Reference](https://docs.abuseipdb.com/#blacklist-endpoint)
-- [API Reference](https://docs.abuseipdb.com/#report-endpoint)
-- [API Reference](https://docs.abuseipdb.com/#bulk-report-endpoint)
-- [API Reference](https://docs.abuseipdb.com/#check-block-endpoint)
-- [API Reference](https://docs.abuseipdb.com/#clear-address-endpoint)
-- [Authentication](https://docs.abuseipdb.com/#authentication)
-- [Rate Limits](https://docs.abuseipdb.com/#rate-limit-headers)
-- [Errors](https://docs.abuseipdb.com/#error-handling)
-- [Code Examples](https://docs.abuseipdb.com/#api-clients)
-- [OpenAPI](openapi/abuseipdb-apiv2-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/abuseipdb-apiv2.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/abuseipdb-apiv2.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/abuseipdb-check-response-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/abuseipdb-report-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/abuseipdb-blacklist-entry-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/abuseipdb-check-response-structure.json)
-- [JSON Structure](json-structure/abuseipdb-report-structure.json)
-- [JSON Structure](json-structure/abuseipdb-blacklist-entry-structure.json)
-- [JSON-LD](json-ld/abuseipdb-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Example](examples/abuseipdb-check-example.json)
-- [Example](examples/abuseipdb-report-example.json)
-- [Example](examples/abuseipdb-blacklist-example.json)
-- [Example](examples/abuseipdb-check-block-example.json)
-- [Example](examples/abuseipdb-reports-example.json)
-- [Example](examples/abuseipdb-bulk-report-example.json)
+The data models the API reads and writes.
 
-## Common Properties
+- [AbuseIPDB Blacklist Entry](https://apis.io/schemas/abuseipdb/abuseipdb-blacklist-entry/)
+- [AbuseIPDB Check Response](https://apis.io/schemas/abuseipdb/abuseipdb-check-response/)
+- [AbuseIPDB Report](https://apis.io/schemas/abuseipdb/abuseipdb-report/)
 
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
+#### JSON Structure (3)
+
+Data models expressed in JSON Structure.
+
+- [Abuseipdb Blacklist Entry Structure](https://apis.io/json-structure/abuseipdb/abuseipdb-blacklist-entry-structure/)
+- [Abuseipdb Check Response Structure](https://apis.io/json-structure/abuseipdb/abuseipdb-check-response-structure/)
+- [Abuseipdb Report Structure](https://apis.io/json-structure/abuseipdb/abuseipdb-report-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Abuseipdb Context](https://apis.io/jsonld/abuseipdb/abuseipdb-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Abuseipdb Vocabulary](https://apis.io/vocabularies/abuseipdb/abuseipdb-vocabulary/)
+
+#### Examples (6)
+
+Example requests and responses.
+
+- [Abuseipdb Blacklist Example](https://apis.io/examples/abuseipdb/abuseipdb-blacklist-example/)
+- [Abuseipdb Bulk Report Example](https://apis.io/examples/abuseipdb/abuseipdb-bulk-report-example/)
+- [Abuseipdb Check Block Example](https://apis.io/examples/abuseipdb/abuseipdb-check-block-example/)
+- [Abuseipdb Check Example](https://apis.io/examples/abuseipdb/abuseipdb-check-example/)
+- [Abuseipdb Report Example](https://apis.io/examples/abuseipdb/abuseipdb-report-example/)
+- [Abuseipdb Reports Example](https://apis.io/examples/abuseipdb/abuseipdb-reports-example/)
+
+#### Collections (6)
+
+Postman and Open Collection request collections.
+
+- [AbuseIPDB APIv2](https://apis.io/collections/abuseipdb/open-abuseipdb-apiv2/)
+- [AbuseIPDB APIv2 Blacklist API](https://apis.io/collections/abuseipdb/open-abuseipdb-blacklist-api/)
+- [AbuseIPDB APIv2 Blacklist Management API](https://apis.io/collections/abuseipdb/open-abuseipdb-management-api/)
+- [AbuseIPDB APIv2 Blacklist Reports API](https://apis.io/collections/abuseipdb/open-abuseipdb-reports-api/)
+- [AbuseIPDB APIv2 Blacklist Reputation API](https://apis.io/collections/abuseipdb/open-abuseipdb-reputation-api/)
+- [AbuseIPDB APIv2](https://apis.io/collections/abuseipdb/postman-abuseipdb-apiv2/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [AbuseIPDB — jsonschema rules](https://apis.io/rules/abuseipdb/abuseipdb-jsonschema-spectral-rules/)
+- [AbuseIPDB API Rules](https://apis.io/rules/abuseipdb/abuseipdb-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Abuseipdb Authentication](https://apis.io/security/abuseipdb/abuseipdb-authentication/)
+- [Abuseipdb Domain Security](https://apis.io/security/abuseipdb/abuseipdb-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Abuseipdb Plans Pricing](https://apis.io/plans/abuseipdb/abuseipdb-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Abuseipdb Rate Limits](https://apis.io/rate-limits/abuseipdb/abuseipdb-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Abuseipdb Finops](https://apis.io/finops/abuseipdb/abuseipdb-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.abuseipdb.com/)
 - [Documentation](https://docs.abuseipdb.com/)
-- [Sign Up](https://www.abuseipdb.com/register)
-- [Login](https://www.abuseipdb.com/login)
-- [Developer Portal](https://www.abuseipdb.com/account/api)
 - [Pricing](https://www.abuseipdb.com/pricing)
-- [Plans](plans/abuseipdb-plans-pricing.yml)
-- [Rate Limits](rate-limits/abuseipdb-rate-limits.yml)
-- [Spectral Rules](rules/abuseipdb-rules.yml)
-- [Vocabulary](vocabulary/abuseipdb-vocabulary.yml)
-- [Fin Ops](finops/abuseipdb-finops.yml)
-- [Plans](https://www.abuseipdb.com/account/plans)
-- [Blog](https://www.abuseipdb.com/blog)
-- [F A Q](https://www.abuseipdb.com/faq.html)
 - [Support](https://www.abuseipdb.com/contact)
-- [Contact](https://www.abuseipdb.com/contact)
-- [Terms of Service](https://www.abuseipdb.com/terms-of-service)
-- [Privacy Policy](https://www.abuseipdb.com/privacy-policy)
-- [GitHub Organization](https://github.com/AbuseIPDB)
-- [SDK](https://github.com/AbuseIPDB/laravel)
-- [SDK](https://github.com/nickurt/laravel-abuseipdb)
-- [SDK](https://github.com/falegk/abuseipdb-rb)
-- [SDK](https://github.com/meatyite/python-abuseipdb)
-- [SDK](https://github.com/streanger/abuseipdb-wrapper)
-- [C L I](https://github.com/kristuff/abuseipdb-cli)
-- [Integrations](undefined)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Solutions](undefined)
+- [Blog](https://www.abuseipdb.com/blog)
+- [Terms of service](https://www.abuseipdb.com/terms-of-service)
+- [Privacy policy](https://www.abuseipdb.com/privacy-policy)
+- [GitHub](https://github.com/AbuseIPDB)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 43.2** — developing · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 66.0 |
+| Contract governance | 27.3 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 51.2 |
+| Access clarity | 25.0 |
+
+**Agent readiness 26.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | verified |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/abuseipdb/](https://apis.io/providers/abuseipdb/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for AbuseIPDB: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/abuseipdb/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
